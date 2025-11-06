@@ -1,353 +1,268 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>PRV – Mode de garde (style Power BI)</title>
-
-  <!-- Chart.js (pour barres & donut) -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
-
-  <style>
-    /* ======= Thème proche Power BI (clair) ======= */
-    :root{
-      --bg:#f5f6f8;           /* fond page */
-      --card:#ffffff;         /* fond cartes */
-      --text:#1f2937;         /* texte principal */
-      --muted:#6b7280;        /* texte secondaire */
-      --accent:#2563eb;       /* couleur d’accent (modifiable) */
-      --accent-2:#10b981;     /* 2e accent pour séries */
-      --accent-3:#f59e0b;
-      --accent-4:#ef4444;
-      --border:#e5e7eb;       /* bordure cartes */
-      --shadow:0 2px 10px rgba(0,0,0,.06);
-      --radius:12px;
-      --gap:14px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family: "Segoe UI", Roboto, system-ui, -apple-system, Arial, sans-serif;
-      background:var(--bg); color:var(--text);
-    }
-    .wrap{padding:18px; max-width:1400px; margin:0 auto;}
-    .header{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
-    .title{font-size:20px; font-weight:700;}
-
-    .grid{
-      display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:var(--gap);
-    }
-    .card{
-      background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
-      box-shadow: var(--shadow); padding:14px;
-    }
-    .kpi .label{color:var(--muted); font-size:12px; font-weight:600; letter-spacing:.2px;}
-    .kpi .value{font-size:34px; font-weight:800; margin-top:6px;}
-    .kpi .sub{color:var(--muted); font-size:12px; margin-top:4px;}
-
-    .row{display:grid; grid-template-columns: 2fr 1fr; gap:var(--gap); margin-top:var(--gap);}
-    .filters{display:flex; flex-wrap:wrap; gap:8px;}
-    .chip{
-      background:#fff; border:1px solid var(--border); border-radius:999px; padding:6px 10px; cursor:pointer;
-      box-shadow: var(--shadow); font-size:12px;
-    }
-    .chip.active{border-color:var(--accent); color:var(--accent); font-weight:600}
-
-    .table{width:100%; border-collapse:collapse; font-size:14px;}
-    .table th, .table td{padding:8px 10px; border-bottom:1px solid var(--border); text-align:left;}
-    .note{font-size:13px; color:#b45309; margin-top:8px;}
-    .error{color:#b91c1c}
-    @media (max-width: 1100px){
-      .grid{grid-template-columns:1fr 1fr}
-      .row{grid-template-columns:1fr}
-    }
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PRV – Modes de garde (cross-filter)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+<style>
+  :root{--bg:#f5f6f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#2563eb;
+        --border:#e5e7eb;--shadow:0 2px 8px rgba(0,0,0,.05);--radius:12px;--gap:14px;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Roboto,system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--text)}
+  .wrap{padding:18px;max-width:1400px;margin:auto}
+  .header{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .title{font-weight:700}
+  .filters{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:#fff;border:1px solid var(--border);border-radius:999px;padding:6px 10px;cursor:pointer;
+        box-shadow:var(--shadow);font-size:12px;user-select:none}
+  .chip.active{border-color:var(--accent);color:var(--accent);font-weight:600}
+  .reset{margin-left:8px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}
+  .kpi .label{color:var(--muted);font-size:12px;font-weight:600}
+  .kpi .value{font-size:34px;font-weight:800;margin-top:6px}
+  .row{display:grid;grid-template-columns:2fr 1fr;gap:var(--gap);margin-top:var(--gap)}
+  .table{width:100%;border-collapse:collapse;font-size:14px}
+  .table th,.table td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:left}
+  .note{font-size:13px;color:#b45309;margin-top:8px}
+  @media (max-width:1100px){.row{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="header">
-      <div class="title">PRV — Mode de garde collectif (style Power BI)</div>
+<div class="wrap">
+  <div class="header">
+    <div class="title">PRV — Modes de garde collectif à Nantes</div>
+    <div style="display:flex;align-items:center;gap:8px">
       <div class="filters" id="filters"></div>
-    </div>
-
-    <!-- KPIs -->
-    <div class="grid">
-      <div class="card kpi">
-        <div class="label">Nb places (collectif)</div>
-        <div class="value" id="kpiPlaces">–</div>
-        <div class="sub">Types pris en compte : Municipale, Associative, Micro-crèche</div>
-      </div>
-      <div class="card kpi">
-        <div class="label">Nombre de crèches</div>
-        <div class="value" id="kpiCreches">–</div>
-        <div class="sub">Filtre Quartier appliqué</div>
-      </div>
-      <div class="card kpi">
-        <div class="label">Places / 1000 hab</div>
-        <div class="value" id="kpiPer1k">–</div>
-        <div class="sub" id="kpiPer1kSub">Source : Population 2018</div>
-      </div>
-      <div class="card kpi">
-        <div class="label">Population</div>
-        <div class="value" id="kpiPop">–</div>
-        <div class="sub">Somme des micro-quartiers du quartier sélectionné</div>
-      </div>
-    </div>
-
-    <!-- Graphiques -->
-    <div class="row">
-      <div class="card">
-        <div class="label" style="margin-bottom:8px">Places par quartier</div>
-        <canvas id="barQuartier" height="140"></canvas>
-      </div>
-      <div class="card">
-        <div class="label" style="margin-bottom:8px">Répartition par type</div>
-        <canvas id="donutType" height="140"></canvas>
-      </div>
-    </div>
-
-    <!-- Tableau détail -->
-    <div class="card" style="margin-top:var(--gap);">
-      <div class="label" style="margin-bottom:8px">Liste des crèches (après filtres)</div>
-      <table class="table" id="tbl">
-        <thead><tr>
-          <th>Nom</th><th>Adresse</th><th>Quartier</th><th>Type</th><th>Nb places</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-      <div class="note" id="note"></div>
-    </div>
-
-    <div class="note" id="localNote" style="display:none">
-      ⚠️ Lecture locale bloquée ? Lancez <code>python -m http.server</code> dans le dossier puis ouvrez <code>http://localhost:8000/index-pbi-like.html</code>.
+      <button id="btnReset" class="reset" title="Réinitialiser les filtres">Réinitialiser</button>
     </div>
   </div>
 
-  <script>
-    // ---- Config fichiers (même dossier) ----
-    const CRECHES_URL   = "./DataCreches.json";
-    const QUARTIERS_URL = "./DataQuartier.json";
-    const COLLECTIF_TYPES = new Set(["Municipale","Associative","Micro-crèche"]);
+  <!-- KPIs -->
+  <div class="grid">
+    <div class="card kpi"><div class="label">Nb places (collectif)</div><div class="value" id="kpiPlaces">–</div></div>
+    <div class="card kpi"><div class="label">Nombre de crèches</div><div class="value" id="kpiCreches">–</div></div>
+    <div class="card kpi"><div class="label">Places / 1000 hab</div><div class="value" id="kpiPer1k">–</div></div>
+    <div class="card kpi"><div class="label">Population</div><div class="value" id="kpiPop">–</div></div>
+  </div>
 
-    // ---- État ----
-    let CRECHES = [];
-    let QUARTIERS = [];
-    let selectedQuartier = null;  // filtre simple
-    let selectedTypes = new Set([...COLLECTIF_TYPES]); // filtres type
+  <!-- Graphiques -->
+  <div class="row">
+    <div class="card">
+      <div class="label" style="margin-bottom:8px">Places par quartier (clic = filtre)</div>
+      <canvas id="barQuartier" height="160"></canvas>
+    </div>
+    <div class="card">
+      <div class="label" style="margin-bottom:8px">Répartition par type (clic = filtre)</div>
+      <canvas id="donutType" height="160"></canvas>
+    </div>
+  </div>
 
-    // ---- UI refs ----
-    const kpiPlaces = document.getElementById('kpiPlaces');
-    const kpiCreches = document.getElementById('kpiCreches');
-    const kpiPer1k = document.getElementById('kpiPer1k');
-    const kpiPer1kSub = document.getElementById('kpiPer1kSub');
-    const kpiPop = document.getElementById('kpiPop');
-    const filtersDiv = document.getElementById('filters');
-    const tblBody = document.querySelector('#tbl tbody');
-    const note = document.getElementById('note');
-    const localNote = document.getElementById('localNote');
+  <!-- Tableau -->
+  <div class="card" style="margin-top:var(--gap);">
+    <div class="label">Liste des crèches (après filtres)</div>
+    <table class="table" id="tbl">
+      <thead><tr><th>Nom</th><th>Quartier</th><th>Type</th><th>Places</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="note" id="note"></div>
+  </div>
+</div>
 
-    // ---- Utils ----
-    const fmt = (n, opt={}) => (n==null || isNaN(n)) ? "–" : n.toLocaleString('fr-FR', opt);
-    const uniq = arr => [...new Set(arr)];
-    const by = (arr, key) => arr.reduce((m, r) => (m[r[key]]=(m[r[key]]||0)+1, m), {});
-    const sumBy = (arr, key) => arr.reduce((s,r)=>s+(Number(r[key])||0),0);
+<script>
+const CRECHES_URL="./DataCreches.json";
+const QUARTIERS_URL="./DataQuartier.json";
+const COLLECTIF_TYPES=new Set(["Municipale","Associative","Micro-crèche"]);
 
-    // ---- Filters UI (quartier + types) ----
-    function renderFilters(){
-      const quartiers = uniq(CRECHES.map(c=>c.Quartier).filter(Boolean)).sort((a,b)=>a.localeCompare(b,'fr'));
-      const types = uniq(CRECHES.map(c=>c.Type).filter(Boolean));
+let CRECHES=[], QUARTIERS=[];
+let selectedQuartier=null;
+let selectedTypes=new Set(); // vide = tous (on initialisera à tous les types disponibles)
 
-      // Quartier chips
-      const qChips = quartiers.map(q=>{
-        const active = q===selectedQuartier;
-        return `<div class="chip ${active?'active':''}" data-chip="quartier" data-value="${q}">${q}</div>`;
-      }).join("");
-      // Type chips
-      const tChips = types.map(t=>{
-        const active = selectedTypes.has(t);
-        return `<div class="chip ${active?'active':''}" data-chip="type" data-value="${t}">${t}</div>`;
-      }).join("");
+const fmt=n=>n==null||isNaN(n)?"–":n.toLocaleString("fr-FR");
+const sumBy=(a,k)=>a.reduce((s,r)=>s+(+r[k]||0),0);
+const uniq=a=>[...new Set(a)];
+const by=(arr,key,aggKey)=>arr.reduce((acc,r)=>{
+  const k=r[key]??"(N/A)"; acc[k]=(acc[k]||0)+(+r[aggKey]||0); return acc;
+},{});
 
-      filtersDiv.innerHTML = `
-        <div class="chip ${selectedQuartier? '':'active'}" data-chip="quartier" data-value="">Tous les quartiers</div>
-        ${qChips}
-        <span style="width:12px"></span>
-        ${tChips}
-      `;
+// UI refs
+const filtersDiv=document.getElementById("filters");
+const btnReset=document.getElementById("btnReset");
+const kpiPlaces=document.getElementById("kpiPlaces");
+const kpiCreches=document.getElementById("kpiCreches");
+const kpiPer1k=document.getElementById("kpiPer1k");
+const kpiPop=document.getElementById("kpiPop");
+const tblBody=document.querySelector("#tbl tbody");
+const note=document.getElementById("note");
+
+// Render filters (quartier + type), sync with state
+function renderFilters(){
+  const quartiers=uniq(CRECHES.map(c=>c.Quartier).filter(Boolean)).sort((a,b)=>a.localeCompare(b,'fr'));
+  const types=uniq(CRECHES.map(c=>c.Type).filter(Boolean)).sort((a,b)=>a.localeCompare(b,'fr'));
+  // init selectedTypes first time
+  if(selectedTypes.size===0) types.forEach(t=>selectedTypes.add(t));
+
+  const qHTML = `<div class="chip ${!selectedQuartier?'active':''}" data-chip="quartier" data-val="">Tous les quartiers</div>`+
+    quartiers.map(q=>`<div class="chip ${q===selectedQuartier?'active':''}" data-chip="quartier" data-val="${q}">${q}</div>`).join("");
+
+  const tHTML = types.map(t=>`<div class="chip ${selectedTypes.has(t)?'active':''}" data-chip="type" data-val="${t}">${t}</div>`).join("");
+
+  filtersDiv.innerHTML = qHTML + `<span style="width:12px"></span>` + tHTML;
+}
+
+// Click handlers on chips
+filtersDiv.addEventListener("click", e=>{
+  const chip=e.target.closest(".chip"); if(!chip) return;
+  const kind=chip.dataset.chip, val=chip.dataset.val;
+  if(kind==="quartier"){ selectedQuartier = val || null; }
+  if(kind==="type"){
+    if(selectedTypes.has(val)) selectedTypes.delete(val); else selectedTypes.add(val);
+    // éviter état vide : si plus aucun type → réactiver tous
+    if(selectedTypes.size===0){
+      CRECHES.map(c=>c.Type).forEach(t=>selectedTypes.add(t));
     }
+  }
+  renderFilters(); updateAll();
+});
 
-    function attachFilterEvents(){
-      filtersDiv.addEventListener('click', (e)=>{
-        const chip = e.target.closest('.chip'); if(!chip) return;
-        const kind = chip.dataset.chip;
-        const val  = chip.dataset.value;
+// Reset button
+btnReset.addEventListener("click", ()=>{
+  selectedQuartier=null;
+  selectedTypes.clear();
+  renderFilters();
+  updateAll();
+});
 
-        if(kind === 'quartier'){
-          selectedQuartier = val || null;
-        }else if(kind === 'type'){
-          if(selectedTypes.has(val)) selectedTypes.delete(val);
-          else selectedTypes.add(val);
+// Filtering pipeline
+function applyFilters(){
+  return CRECHES.filter(r=>{
+    const okQ = !selectedQuartier || r.Quartier===selectedQuartier;
+    const okT = selectedTypes.has(r.Type);
+    return okQ && okT;
+  });
+}
+
+// KPIs
+function updateKPIs(rows){
+  const rowsC = rows.filter(r=>COLLECTIF_TYPES.has(r.Type)); // Collectif défini
+  const places = sumBy(rowsC, "Nb places");
+  kpiPlaces.textContent = fmt(places);
+  kpiCreches.textContent = fmt(rows.length);
+
+  let pop=null, per1k=null;
+  if(selectedQuartier){
+    const micros = QUARTIERS.filter(q=>(q.Quartier||"")===selectedQuartier);
+    pop = sumBy(micros,"Population (2018)");
+    per1k = pop ? places / (pop/1000) : null;
+  }
+  kpiPop.textContent = pop!=null ? fmt(pop) : "–";
+  kpiPer1k.textContent = per1k!=null ? per1k.toFixed(2).replace('.',',') : "–";
+}
+
+// Table
+function updateTable(rows){
+  tblBody.innerHTML = rows.map(r=>`<tr>
+    <td>${r.Nom||""}</td><td>${r.Quartier||""}</td><td>${r.Type||""}</td><td>${fmt(r["Nb places"])}</td>
+  </tr>`).join("");
+  note.textContent = `${rows.length} crèche(s) affichée(s)`;
+}
+
+// Charts
+let barChart, donutChart;
+
+// Build / rebuild charts with onClick interactions
+function updateCharts(rows){
+  // --- Bar: Places par quartier (collectif uniquement)
+  const rowsC = rows.filter(r=>COLLECTIF_TYPES.has(r.Type));
+  const aggQ = by(rowsC, "Quartier", "Nb places");
+  const labelsQ = Object.keys(aggQ).sort((a,b)=>a.localeCompare(b,'fr'));
+  const dataQ = labelsQ.map(l=>aggQ[l]);
+
+  const barCtx=document.getElementById("barQuartier").getContext("2d");
+  if(barChart) barChart.destroy();
+  barChart = new Chart(barCtx,{
+    type:'bar',
+    data:{ labels:labelsQ, datasets:[{ data:dataQ, backgroundColor: labelsQ.map(q=> q===selectedQuartier ? '#1d4ed8' : '#2563eb') }] },
+    options:{
+      responsive:true,
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:ctx=>fmt(ctx.parsed.y) } } },
+      scales:{ y:{ ticks:{ callback:v=>fmt(v) } } },
+      onHover:(evt,active)=>{ evt.native.target.style.cursor = active.length?'pointer':'default'; },
+      onClick:(evt,activeEls)=>{
+        if(!activeEls.length){
+          // double-clic "dans le vide" : rien
+          return;
         }
-        renderFilters();
-        updateAll();
-      });
-    }
-
-    // ---- KPIs ----
-    function updateKPIs(rows){
-      const rowsCollectif = rows.filter(r => COLLECTIF_TYPES.has(r.Type));
-      const places = sumBy(rowsCollectif, "Nb places");
-      kpiPlaces.textContent = fmt(places);
-      kpiCreches.textContent = fmt(rows.length);
-
-      // Pop et places / 1000 hab (si quartier unique)
-      let pop = null, per1k = null;
-      if(selectedQuartier){
-        const micros = QUARTIERS.filter(q=> (q.Quartier||"") === selectedQuartier);
-        if(micros.length){
-          pop = sumBy(micros, "Population (2018)");
-          per1k = pop ? (places / (pop/1000)) : null;
-        }
-      }
-      kpiPop.textContent  = pop!=null ? fmt(pop) : "–";
-      kpiPer1k.textContent = per1k!=null ? per1k.toFixed(2).replace('.',',') : "–";
-      kpiPer1kSub.textContent = selectedQuartier ? `Source : Population 2018 – ${selectedQuartier}` : "Source : Population 2018";
-    }
-
-    // ---- Tableau ----
-    function updateTable(rows){
-      const html = rows.map(r=>`
-        <tr>
-          <td>${r.Nom || ""}</td>
-          <td>${r.Adresse || ""}</td>
-          <td>${r.Quartier || ""}</td>
-          <td>${r.Type || ""}</td>
-          <td>${fmt(Number(r["Nb places"])||0)}</td>
-        </tr>
-      `).join("");
-      tblBody.innerHTML = html;
-      note.textContent = `${rows.length} élément(s)`;
-    }
-
-    // ---- Graphiques (Chart.js) ----
-    let barChart, donutChart;
-
-    function makeBarConfig(labels, values){
-      return {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Places',
-            data: values,
-            backgroundColor: 'rgba(37, 99, 235, 0.8)' // --accent
-          }]
-        },
-        options: {
-          responsive:true,
-          plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:ctx=>fmt(ctx.parsed.y) } } },
-          scales:{
-            x:{ ticks:{ color:'#4b5563' } },
-            y:{ ticks:{ color:'#4b5563', callback:(v)=>fmt(v) }, grid:{ color:'#e5e7eb' } }
-          }
-        }
-      };
-    }
-
-    function makeDonutConfig(labels, values){
-      const palette = ['#2563eb','#10b981','#f59e0b','#ef4444','#9333ea','#06b6d4'];
-      return {
-        type:'doughnut',
-        data:{ labels, datasets:[{ data: values, backgroundColor: palette.slice(0, labels.length) }] },
-        options:{
-          responsive:true, cutout:'60%',
-          plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, color:'#374151' } },
-                    tooltip:{ callbacks:{ label:ctx=>`${ctx.label}: ${fmt(ctx.parsed)}` } } }
-        }
-      };
-    }
-
-    function updateCharts(rows){
-      // Bar: places par quartier (collectif)
-      const rowsC = rows.filter(r => COLLECTIF_TYPES.has(r.Type));
-      const grp = {};
-      rowsC.forEach(r=>{
-        const q = r.Quartier || "(N/A)";
-        grp[q] = (grp[q]||0) + (Number(r["Nb places"])||0);
-      });
-      const labelsBar = Object.keys(grp).sort((a,b)=>a.localeCompare(b,'fr'));
-      const dataBar = labelsBar.map(l=>grp[l]);
-
-      const barCtx = document.getElementById('barQuartier').getContext('2d');
-      if(barChart) barChart.destroy();
-      barChart = new Chart(barCtx, makeBarConfig(labelsBar, dataBar));
-
-      // Donut: répartition par type (collectif)
-      const grpType = {};
-      rowsC.forEach(r=>{
-        const t = r.Type || "(N/A)";
-        grpType[t] = (grpType[t]||0) + (Number(r["Nb places"])||0);
-      });
-      const labelsDonut = Object.keys(grpType);
-      const dataDonut = labelsDonut.map(l=>grpType[l]);
-      const donutCtx = document.getElementById('donutType').getContext('2d');
-      if(donutChart) donutChart.destroy();
-      donutChart = new Chart(donutCtx, makeDonutConfig(labelsDonut, dataDonut));
-    }
-
-    // ---- Pipeline d’update ----
-    function applyFilters(){
-      return CRECHES.filter(r=>{
-        const okQ = !selectedQuartier || r.Quartier === selectedQuartier;
-        const okT = selectedTypes.has(r.Type);
-        return okQ && okT;
-      });
-    }
-
-    function updateAll(){
-      const rows = applyFilters();
-      updateKPIs(rows);
-      updateCharts(rows);
-      updateTable(rows);
-    }
-
-    // ---- Chargement JSON ----
-    async function loadJSON(path){
-      try{
-        const res = await fetch(path);
-        if(!res.ok) throw new Error('HTTP '+res.status);
-        return await res.json();
-      }catch(e){
-        localNote.style.display = 'block';
-        throw e;
+        const idx = activeEls[0].index;
+        const label = barChart.data.labels[idx];
+        // toggle
+        selectedQuartier = (selectedQuartier===label) ? null : label;
+        renderFilters(); updateAll();
       }
     }
+  });
 
-    (async function init(){
-      try{
-        [CRECHES, QUARTIERS] = await Promise.all([
-          loadJSON(CRECHES_URL),
-          loadJSON(QUARTIERS_URL)
-        ]);
+  // --- Donut: répartition par type (tous types)
+  const aggT = by(rows, "Type", "Nb places");
+  const labelsT = Object.keys(aggT);
+  const dataT = labelsT.map(l=>aggT[l]);
+  const palette = ['#2563eb','#10b981','#f59e0b','#ef4444','#9333ea','#06b6d4'];
 
-        // Normalisation (noms de colonnes attendus)
-        CRECHES = CRECHES.map(d=>({
-          Nom: d["Nom"], Adresse: d["Adresse"], Quartier: d["Quartier"],
-          Type: d["Type"], "Nb places": Number(d["Nb places"])||0
-        }));
-        QUARTIERS = QUARTIERS.map(d=>({
-          "Micro-quartier": d["Micro-quartier"],
-          Quartier: d["Quartier"],
-          "Population (2018)": Number(d["Population (2018)"])||0,
-          "Superficie (km²)": Number(d["Superficie (km²)"])||0
-        }));
-
-        renderFilters();
-        attachFilterEvents();
-        updateAll();
-      }catch(e){
-        console.error(e);
+  const donutCtx=document.getElementById("donutType").getContext("2d");
+  if(donutChart) donutChart.destroy();
+  donutChart = new Chart(donutCtx,{
+    type:'doughnut',
+    data:{ labels:labelsT, datasets:[{ data:dataT, backgroundColor: labelsT.map((l,i)=> selectedTypes.has(l)?palette[i%palette.length]:'#d1d5db') }] },
+    options:{
+      responsive:true, cutout:'60%',
+      plugins:{ legend:{ position:'bottom' }, tooltip:{ callbacks:{ label:ctx=>`${ctx.label}: ${fmt(ctx.parsed)}` } } },
+      onHover:(evt,active)=>{ evt.native.target.style.cursor = active.length?'pointer':'default'; },
+      onClick:(evt,activeEls)=>{
+        if(!activeEls.length) return;
+        const idx = activeEls[0].index;
+        const type = donutChart.data.labels[idx];
+        // toggle multi-sélection
+        if(selectedTypes.has(type)) selectedTypes.delete(type); else selectedTypes.add(type);
+        if(selectedTypes.size===0){ // ne pas rester vide → réactiver tous
+          donutChart.data.labels.forEach(t=>selectedTypes.add(t));
+        }
+        renderFilters(); updateAll();
       }
-    })();
-  </script>
+    }
+  });
+}
+
+// Orchestration
+function updateAll(){
+  const rows = applyFilters();
+  updateKPIs(rows);
+  updateCharts(rows);
+  updateTable(rows);
+}
+
+// Init
+(async function init(){
+  const [creches, quartiers] = await Promise.all([
+    fetch(CRECHES_URL).then(r=>r.json()),
+    fetch(QUARTIERS_URL).then(r=>r.json())
+  ]);
+  CRECHES = creches.map(d=>({ Nom:d["Nom"], Quartier:d["Quartier"], Type:d["Type"], "Nb places": +d["Nb places"]||0 }));
+  QUARTIERS = quartiers.map(d=>({
+    "Micro-quartier": d["Micro-quartier"], Quartier: d["Quartier"],
+    "Population (2018)": +d["Population (2018)"]||0, "Superficie (km²)": +d["Superficie (km²)"]||0
+  }));
+  renderFilters();
+  updateAll();
+
+  // Double-clic sur les canvases → reset du filtre correspondant
+  document.getElementById("barQuartier").addEventListener("dblclick", ()=>{
+    selectedQuartier=null; renderFilters(); updateAll();
+  });
+  document.getElementById("donutType").addEventListener("dblclick", ()=>{
+    selectedTypes.clear(); renderFilters(); updateAll();
+  });
+})();
+</script>
 </body>
 </html>
