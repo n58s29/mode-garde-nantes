@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Modes de garde collectifs à Nantes</title>
+<title>PRV – Modes de garde (carte + stacked + cross-filters)</title>
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
@@ -40,7 +40,7 @@
 <body>
 <div class="wrap">
   <div class="header">
-    <div class="title">Modes de garde collectif à Nantes</div>
+    <div class="title">PRV — Modes de garde collectif à Nantes</div>
     <div style="display:flex;align-items:center;gap:8px">
       <div class="filters" id="filters"></div>
       <button id="btnReset" class="reset" title="Réinitialiser les filtres">Réinitialiser</button>
@@ -63,7 +63,7 @@
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
       <div class="card">
-        <div class="label" style="margin-bottom:8px">Places par quartier (clic = filtre)</div>
+        <div class="label" style="margin-bottom:8px">Places par quartier (empilé par type) — clic = filtre</div>
         <canvas id="barQuartier" height="150"></canvas>
       </div>
       <div class="card">
@@ -89,6 +89,15 @@ const CRECHES_URL="./DataCreches.json";
 const QUARTIERS_URL="./DataQuartier.json";
 const COLLECTIF_TYPES=new Set(["Municipale","Associative","Micro-crèche"]);
 
+// 🎨 Palette unique et cohérente (carte + bar + donut)
+const TYPE_COLORS = {
+  "Municipale":"#2563eb",
+  "Associative":"#ef4444",
+  "Micro-crèche":"#f59e0b",
+  "MAM":"#9333ea"
+};
+const FALLBACK_COLORS = ['#06b6d4','#22c55e','#e11d48','#a3e635','#14b8a6','#f97316'];
+
 let CRECHES=[], QUARTIERS=[];
 let selectedQuartier=null;
 let selectedTypes=new Set(); // init à tous au premier rendu
@@ -97,9 +106,16 @@ let selectedTypes=new Set(); // init à tous au premier rendu
 const fmt=n=>n==null||isNaN(n)?"–":n.toLocaleString("fr-FR");
 const sumBy=(a,k)=>a.reduce((s,r)=>s+(+r[k]||0),0);
 const uniq=a=>[...new Set(a)];
-const by=(arr,key,aggKey)=>arr.reduce((acc,r)=>{
-  const k=r[key]??"(N/A)"; acc[k]=(acc[k]||0)+(+r[aggKey]||0); return acc;
-},{});
+const by=(arr,keys,aggKey)=>{
+  // groupby multi-clé (ex: quartier+type)
+  const map=new Map();
+  arr.forEach(r=>{
+    const k=keys.map(k=>r[k]??"(N/A)").join("§");
+    map.set(k,(map.get(k)||0)+(+r[aggKey]||0));
+  });
+  return map; // key = "quartier§type", value = somme
+};
+const colorForType = (t,i=0) => TYPE_COLORS[t] || FALLBACK_COLORS[i % FALLBACK_COLORS.length];
 
 // UI refs
 const filtersDiv=document.getElementById("filters");
@@ -115,10 +131,8 @@ const note=document.getElementById("note");
 const map=L.map('map').setView([47.218,-1.553],12);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; OSM'}).addTo(map);
 const markersLayer=L.layerGroup().addTo(map);
-const typeColors={"Municipale":"#2563eb","Associative":"#ef4444","Micro-crèche":"#f59e0b","MAM":"#9333ea"};
 
 function radiusFor(n){const v=+n||0; return Math.max(6, Math.sqrt(v)*2);}
-function colorFor(t){return typeColors[t]||"#06b6d4";}
 
 function updateMap(rows){
   markersLayer.clearLayers();
@@ -126,14 +140,13 @@ function updateMap(rows){
   rows.forEach(r=>{
     const lat=r._lat, lon=r._lon;
     if(lat==null||lon==null) return;
+    const col = colorForType(r.Type);
     const marker=L.circleMarker([lat,lon],{
       radius: radiusFor(r["Nb places"]),
-      color: colorFor(r.Type), fillColor: colorFor(r.Type),
-      weight:1, fillOpacity:.85
+      color: col, fillColor: col, weight:1, fillOpacity:.85
     })
     .bindPopup(`<b>${r.Nom||"(Sans nom)"}</b><br>${r.Adresse||""}<br>${r.Quartier||""} • ${r.Type||""}<br>Places : ${fmt(r["Nb places"])}`)
     .on("click", ()=>{
-      // clic sur marker = filtre Quartier
       if(r.Quartier){
         selectedQuartier = (selectedQuartier===r.Quartier) ? null : r.Quartier;
         renderFilters(); updateAll();
@@ -155,7 +168,7 @@ function renderFilters(){
   if(selectedTypes.size===0) types.forEach(t=>selectedTypes.add(t));
   const qHTML = `<div class="chip ${!selectedQuartier?'active':''}" data-chip="quartier" data-val="">Tous les quartiers</div>`+
     quartiers.map(q=>`<div class="chip ${q===selectedQuartier?'active':''}" data-chip="quartier" data-val="${q}">${q}</div>`).join("");
-  const tHTML = types.map(t=>`<div class="chip ${selectedTypes.has(t)?'active':''}" data-chip="type" data-val="${t}">${t}</div>`).join("");
+  const tHTML = types.map((t,i)=>`<div class="chip ${selectedTypes.has(t)?'active':''}" data-chip="type" data-val="${t}" style="border-color:${colorForType(t,i)};color:${colorForType(t,i)}">${t}</div>`).join("");
   filtersDiv.innerHTML=qHTML+`<span style="width:12px"></span>`+tHTML;
 }
 
@@ -165,7 +178,7 @@ filtersDiv.addEventListener("click", e=>{
   if(kind==="quartier") selectedQuartier = val || null;
   if(kind==="type"){
     if(selectedTypes.has(val)) selectedTypes.delete(val); else selectedTypes.add(val);
-    if(selectedTypes.size===0) CRECHES.map(c=>c.Type).forEach(t=>selectedTypes.add(t)); // évite vide
+    if(selectedTypes.size===0) CRECHES.map(c=>c.Type).forEach(t=>selectedTypes.add(t)); // évite état vide
   }
   renderFilters(); updateAll();
 });
@@ -211,49 +224,78 @@ function updateTable(rows){
 // ========== CHARTS ==========
 let barChart, donutChart;
 
+function buildStackedBar(rows){
+  // 1) axes
+  const quartiers=uniq(rows.map(r=>r.Quartier||"(N/A)")).sort((a,b)=>a.localeCompare(b,'fr'));
+  const types=uniq(CRECHES.map(r=>r.Type||"(N/A)")).sort((a,b)=>a.localeCompare(b,'fr')); // base sur toutes les catégories
+
+  // 2) agrégat quartier x type
+  const m = by(rows, ["Quartier","Type"], "Nb places"); // key = "Quartier§Type" → sum
+  const datasets = types.map((t,ti)=>{
+    const color = colorForType(t,ti);
+    return {
+      label: t,
+      backgroundColor: color,
+      data: quartiers.map(q => m.get(`${q}§${t}`) || 0),
+      stack: 'stack1'
+    };
+  });
+
+  return {labels: quartiers, datasets};
+}
+
 function updateCharts(rows){
-  // Bar: places par quartier (collectif)
-  const rowsC = rows.filter(r=>COLLECTIF_TYPES.has(r.Type));
-  const aggQ = by(rowsC,"Quartier","Nb places");
-  const labelsQ=Object.keys(aggQ).sort((a,b)=>a.localeCompare(b,'fr'));
-  const dataQ=labelsQ.map(l=>aggQ[l]);
+  // --- BAR STACKED PAR TYPE ---
+  const barCfg = buildStackedBar(rows.filter(r=>COLLECTIF_TYPES.has(r.Type)));
   const bctx=document.getElementById("barQuartier").getContext("2d");
   if(barChart) barChart.destroy();
   barChart=new Chart(bctx,{
     type:'bar',
-    data:{labels:labelsQ,datasets:[{data:dataQ,backgroundColor:labelsQ.map(q=>q===selectedQuartier?'#1d4ed8':'#2563eb')}]},
+    data: barCfg,
     options:{
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>fmt(ctx.parsed.y)}}},
-      scales:{y:{ticks:{callback:v=>fmt(v)}}},
+      responsive:true,
+      plugins:{ legend:{ position:'bottom' }, tooltip:{ callbacks:{ label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.y)}` } } },
+      scales:{ x:{ stacked:true }, y:{ stacked:true, ticks:{ callback:v=>fmt(v) } } },
       onHover:(evt,active)=>{evt.native.target.style.cursor=active.length?'pointer':'default';},
       onClick:(evt,els)=>{
         if(!els.length) return;
-        const idx=els[0].index, label=barChart.data.labels[idx];
-        selectedQuartier = (selectedQuartier===label) ? null : label;
+        const idx=els[0].index;
+        const q=barChart.data.labels[idx];
+        selectedQuartier = (selectedQuartier===q) ? null : q;
         renderFilters(); updateAll();
       }
     }
   });
 
-  // Donut: répartition par type (tous)
-  const aggT = by(rows,"Type","Nb places");
-  const labelsT=Object.keys(aggT);
-  const dataT=labelsT.map(l=>aggT[l]);
-  const palette=['#2563eb','#10b981','#f59e0b','#ef4444','#9333ea','#06b6d4'];
+  // --- DONUT PAR TYPE (mêmes couleurs) ---
+  const typeAgg = {};
+  rows.forEach(r=>{
+    typeAgg[r.Type]=(typeAgg[r.Type]||0)+(+r["Nb places"]||0);
+  });
+  const labelsT=Object.keys(typeAgg);
+  const dataT=labelsT.map(l=>typeAgg[l]);
+
   const dctx=document.getElementById("donutType").getContext("2d");
   if(donutChart) donutChart.destroy();
   donutChart=new Chart(dctx,{
     type:'doughnut',
-    data:{labels:labelsT,datasets:[{data:dataT,backgroundColor:labelsT.map((l,i)=>selectedTypes.has(l)?palette[i%palette.length]:'#d1d5db')}]},
+    data:{
+      labels:labelsT,
+      datasets:[{
+        data:dataT,
+        backgroundColor: labelsT.map((t,i)=> selectedTypes.has(t) ? colorForType(t,i) : '#d1d5db')
+      }]
+    },
     options:{
       responsive:true, cutout:'60%',
-      plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${fmt(ctx.parsed)}`}}},
+      plugins:{ legend:{ position:'bottom' }, tooltip:{ callbacks:{ label:ctx=>`${ctx.label}: ${fmt(ctx.parsed)}` } } },
       onHover:(evt,active)=>{evt.native.target.style.cursor=active.length?'pointer':'default';},
       onClick:(evt,els)=>{
         if(!els.length) return;
-        const idx=els[0].index, type=donutChart.data.labels[idx];
-        if(selectedTypes.has(type)) selectedTypes.delete(type); else selectedTypes.add(type);
-        if(selectedTypes.size===0) donutChart.data.labels.forEach(t=>selectedTypes.add(t));
+        const idx=els[0].index;
+        const t=donutChart.data.labels[idx];
+        if(selectedTypes.has(t)) selectedTypes.delete(t); else selectedTypes.add(t);
+        if(selectedTypes.size===0) donutChart.data.labels.forEach(x=>selectedTypes.add(x));
         renderFilters(); updateAll();
       }
     }
@@ -294,4 +336,3 @@ function updateAll(){
 </script>
 </body>
 </html>
-
