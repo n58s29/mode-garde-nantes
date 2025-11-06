@@ -24,3 +24,9 @@ Les données sont extraites des fichiers JSON suivants :
 
 ## 🗂️ Structure du projet
 
+mode-garde-nantes/
+├── index.html # Interface principale (version locale ou en ligne)
+├── DataCreches.json # Données des structures d'accueil
+├── DataQuartier.json # Données des quartiers de Nantes
+├── geocode_creches.py # Script Python pour géocoder les adresses (optionnel)
+└── README.md # Ce fichier
