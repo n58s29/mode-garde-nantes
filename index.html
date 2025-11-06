@@ -3,14 +3,21 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>PRV – Modes de garde (cross-filter)</title>
+<title>Modes de garde collectifs à Nantes</title>
+
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
 <style>
   :root{--bg:#f5f6f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#2563eb;
         --border:#e5e7eb;--shadow:0 2px 8px rgba(0,0,0,.05);--radius:12px;--gap:14px;}
   *{box-sizing:border-box}
   body{margin:0;font-family:"Segoe UI",Roboto,system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--text)}
-  .wrap{padding:18px;max-width:1400px;margin:auto}
+  .wrap{padding:18px;max-width:1500px;margin:auto}
   .header{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px}
   .title{font-weight:700}
   .filters{display:flex;flex-wrap:wrap;gap:8px}
@@ -18,11 +25,12 @@
         box-shadow:var(--shadow);font-size:12px;user-select:none}
   .chip.active{border-color:var(--accent);color:var(--accent);font-weight:600}
   .reset{margin-left:8px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)}
   .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}
   .kpi .label{color:var(--muted);font-size:12px;font-weight:600}
   .kpi .value{font-size:34px;font-weight:800;margin-top:6px}
-  .row{display:grid;grid-template-columns:2fr 1fr;gap:var(--gap);margin-top:var(--gap)}
+  .row{display:grid;grid-template-columns:1.5fr 1fr;gap:var(--gap);margin-top:var(--gap)}
+  #map{height:520px;border-radius:12px}
   .table{width:100%;border-collapse:collapse;font-size:14px}
   .table th,.table td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:left}
   .note{font-size:13px;color:#b45309;margin-top:8px}
@@ -47,15 +55,21 @@
     <div class="card kpi"><div class="label">Population</div><div class="value" id="kpiPop">–</div></div>
   </div>
 
-  <!-- Graphiques -->
+  <!-- Carte + Graphiques -->
   <div class="row">
-    <div class="card">
-      <div class="label" style="margin-bottom:8px">Places par quartier (clic = filtre)</div>
-      <canvas id="barQuartier" height="160"></canvas>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="padding:12px 14px;color:var(--muted);font-size:12px;font-weight:600">Carte des crèches (clic = filtre Quartier)</div>
+      <div id="map"></div>
     </div>
-    <div class="card">
-      <div class="label" style="margin-bottom:8px">Répartition par type (clic = filtre)</div>
-      <canvas id="donutType" height="160"></canvas>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <div class="label" style="margin-bottom:8px">Places par quartier (clic = filtre)</div>
+        <canvas id="barQuartier" height="150"></canvas>
+      </div>
+      <div class="card">
+        <div class="label" style="margin-bottom:8px">Répartition par type (clic = filtre)</div>
+        <canvas id="donutType" height="150"></canvas>
+      </div>
     </div>
   </div>
 
@@ -63,7 +77,7 @@
   <div class="card" style="margin-top:var(--gap);">
     <div class="label">Liste des crèches (après filtres)</div>
     <table class="table" id="tbl">
-      <thead><tr><th>Nom</th><th>Quartier</th><th>Type</th><th>Places</th></tr></thead>
+      <thead><tr><th>Nom</th><th>Quartier</th><th>Type</th><th>Places</th><th>Adresse</th></tr></thead>
       <tbody></tbody>
     </table>
     <div class="note" id="note"></div>
@@ -77,8 +91,9 @@ const COLLECTIF_TYPES=new Set(["Municipale","Associative","Micro-crèche"]);
 
 let CRECHES=[], QUARTIERS=[];
 let selectedQuartier=null;
-let selectedTypes=new Set(); // vide = tous (on initialisera à tous les types disponibles)
+let selectedTypes=new Set(); // init à tous au premier rendu
 
+// Utils
 const fmt=n=>n==null||isNaN(n)?"–":n.toLocaleString("fr-FR");
 const sumBy=(a,k)=>a.reduce((s,r)=>s+(+r[k]||0),0);
 const uniq=a=>[...new Set(a)];
@@ -96,137 +111,149 @@ const kpiPop=document.getElementById("kpiPop");
 const tblBody=document.querySelector("#tbl tbody");
 const note=document.getElementById("note");
 
-// Render filters (quartier + type), sync with state
+// ========== LEAFLET MAP ==========
+const map=L.map('map').setView([47.218,-1.553],12);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; OSM'}).addTo(map);
+const markersLayer=L.layerGroup().addTo(map);
+const typeColors={"Municipale":"#2563eb","Associative":"#ef4444","Micro-crèche":"#f59e0b","MAM":"#9333ea"};
+
+function radiusFor(n){const v=+n||0; return Math.max(6, Math.sqrt(v)*2);}
+function colorFor(t){return typeColors[t]||"#06b6d4";}
+
+function updateMap(rows){
+  markersLayer.clearLayers();
+  const pts=[];
+  rows.forEach(r=>{
+    const lat=r._lat, lon=r._lon;
+    if(lat==null||lon==null) return;
+    const marker=L.circleMarker([lat,lon],{
+      radius: radiusFor(r["Nb places"]),
+      color: colorFor(r.Type), fillColor: colorFor(r.Type),
+      weight:1, fillOpacity:.85
+    })
+    .bindPopup(`<b>${r.Nom||"(Sans nom)"}</b><br>${r.Adresse||""}<br>${r.Quartier||""} • ${r.Type||""}<br>Places : ${fmt(r["Nb places"])}`)
+    .on("click", ()=>{
+      // clic sur marker = filtre Quartier
+      if(r.Quartier){
+        selectedQuartier = (selectedQuartier===r.Quartier) ? null : r.Quartier;
+        renderFilters(); updateAll();
+      }
+    });
+    marker.addTo(markersLayer);
+    pts.push([lat,lon]);
+  });
+  if(pts.length){
+    const b=L.latLngBounds(pts);
+    if(b.isValid()) map.fitBounds(b.pad(0.2));
+  }
+}
+
+// ========== FILTERS ==========
 function renderFilters(){
   const quartiers=uniq(CRECHES.map(c=>c.Quartier).filter(Boolean)).sort((a,b)=>a.localeCompare(b,'fr'));
   const types=uniq(CRECHES.map(c=>c.Type).filter(Boolean)).sort((a,b)=>a.localeCompare(b,'fr'));
-  // init selectedTypes first time
   if(selectedTypes.size===0) types.forEach(t=>selectedTypes.add(t));
-
   const qHTML = `<div class="chip ${!selectedQuartier?'active':''}" data-chip="quartier" data-val="">Tous les quartiers</div>`+
     quartiers.map(q=>`<div class="chip ${q===selectedQuartier?'active':''}" data-chip="quartier" data-val="${q}">${q}</div>`).join("");
-
   const tHTML = types.map(t=>`<div class="chip ${selectedTypes.has(t)?'active':''}" data-chip="type" data-val="${t}">${t}</div>`).join("");
-
-  filtersDiv.innerHTML = qHTML + `<span style="width:12px"></span>` + tHTML;
+  filtersDiv.innerHTML=qHTML+`<span style="width:12px"></span>`+tHTML;
 }
 
-// Click handlers on chips
 filtersDiv.addEventListener("click", e=>{
-  const chip=e.target.closest(".chip"); if(!chip) return;
-  const kind=chip.dataset.chip, val=chip.dataset.val;
-  if(kind==="quartier"){ selectedQuartier = val || null; }
+  const el=e.target.closest(".chip"); if(!el)return;
+  const kind=el.dataset.chip, val=el.dataset.val;
+  if(kind==="quartier") selectedQuartier = val || null;
   if(kind==="type"){
     if(selectedTypes.has(val)) selectedTypes.delete(val); else selectedTypes.add(val);
-    // éviter état vide : si plus aucun type → réactiver tous
-    if(selectedTypes.size===0){
-      CRECHES.map(c=>c.Type).forEach(t=>selectedTypes.add(t));
-    }
+    if(selectedTypes.size===0) CRECHES.map(c=>c.Type).forEach(t=>selectedTypes.add(t)); // évite vide
   }
   renderFilters(); updateAll();
 });
 
-// Reset button
 btnReset.addEventListener("click", ()=>{
-  selectedQuartier=null;
-  selectedTypes.clear();
-  renderFilters();
-  updateAll();
+  selectedQuartier=null; selectedTypes.clear();
+  renderFilters(); updateAll();
 });
 
-// Filtering pipeline
+// ========== DATA FLOW ==========
 function applyFilters(){
   return CRECHES.filter(r=>{
-    const okQ = !selectedQuartier || r.Quartier===selectedQuartier;
-    const okT = selectedTypes.has(r.Type);
+    const okQ=!selectedQuartier || r.Quartier===selectedQuartier;
+    const okT=selectedTypes.has(r.Type);
     return okQ && okT;
   });
 }
 
-// KPIs
 function updateKPIs(rows){
-  const rowsC = rows.filter(r=>COLLECTIF_TYPES.has(r.Type)); // Collectif défini
-  const places = sumBy(rowsC, "Nb places");
-  kpiPlaces.textContent = fmt(places);
-  kpiCreches.textContent = fmt(rows.length);
-
+  const rowsC=rows.filter(r=>COLLECTIF_TYPES.has(r.Type));
+  const places=sumBy(rowsC,"Nb places");
+  kpiPlaces.textContent=fmt(places);
+  kpiCreches.textContent=fmt(rows.length);
   let pop=null, per1k=null;
   if(selectedQuartier){
-    const micros = QUARTIERS.filter(q=>(q.Quartier||"")===selectedQuartier);
-    pop = sumBy(micros,"Population (2018)");
-    per1k = pop ? places / (pop/1000) : null;
+    const micros=QUARTIERS.filter(q=>(q.Quartier||"")===selectedQuartier);
+    pop=sumBy(micros,"Population (2018)");
+    per1k=pop?places/(pop/1000):null;
   }
-  kpiPop.textContent = pop!=null ? fmt(pop) : "–";
-  kpiPer1k.textContent = per1k!=null ? per1k.toFixed(2).replace('.',',') : "–";
+  kpiPop.textContent=pop!=null?fmt(pop):"–";
+  kpiPer1k.textContent=per1k!=null?per1k.toFixed(2).replace('.',','):"–";
 }
 
-// Table
+// TABLE
 function updateTable(rows){
-  tblBody.innerHTML = rows.map(r=>`<tr>
-    <td>${r.Nom||""}</td><td>${r.Quartier||""}</td><td>${r.Type||""}</td><td>${fmt(r["Nb places"])}</td>
+  tblBody.innerHTML=rows.map(r=>`<tr>
+    <td>${r.Nom||""}</td><td>${r.Quartier||""}</td><td>${r.Type||""}</td>
+    <td>${fmt(r["Nb places"])}</td><td>${r.Adresse||""}</td>
   </tr>`).join("");
-  note.textContent = `${rows.length} crèche(s) affichée(s)`;
+  note.textContent=`${rows.length} crèche(s) affichée(s)`;
 }
 
-// Charts
+// ========== CHARTS ==========
 let barChart, donutChart;
 
-// Build / rebuild charts with onClick interactions
 function updateCharts(rows){
-  // --- Bar: Places par quartier (collectif uniquement)
+  // Bar: places par quartier (collectif)
   const rowsC = rows.filter(r=>COLLECTIF_TYPES.has(r.Type));
-  const aggQ = by(rowsC, "Quartier", "Nb places");
-  const labelsQ = Object.keys(aggQ).sort((a,b)=>a.localeCompare(b,'fr'));
-  const dataQ = labelsQ.map(l=>aggQ[l]);
-
-  const barCtx=document.getElementById("barQuartier").getContext("2d");
+  const aggQ = by(rowsC,"Quartier","Nb places");
+  const labelsQ=Object.keys(aggQ).sort((a,b)=>a.localeCompare(b,'fr'));
+  const dataQ=labelsQ.map(l=>aggQ[l]);
+  const bctx=document.getElementById("barQuartier").getContext("2d");
   if(barChart) barChart.destroy();
-  barChart = new Chart(barCtx,{
+  barChart=new Chart(bctx,{
     type:'bar',
-    data:{ labels:labelsQ, datasets:[{ data:dataQ, backgroundColor: labelsQ.map(q=> q===selectedQuartier ? '#1d4ed8' : '#2563eb') }] },
+    data:{labels:labelsQ,datasets:[{data:dataQ,backgroundColor:labelsQ.map(q=>q===selectedQuartier?'#1d4ed8':'#2563eb')}]},
     options:{
-      responsive:true,
-      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:ctx=>fmt(ctx.parsed.y) } } },
-      scales:{ y:{ ticks:{ callback:v=>fmt(v) } } },
-      onHover:(evt,active)=>{ evt.native.target.style.cursor = active.length?'pointer':'default'; },
-      onClick:(evt,activeEls)=>{
-        if(!activeEls.length){
-          // double-clic "dans le vide" : rien
-          return;
-        }
-        const idx = activeEls[0].index;
-        const label = barChart.data.labels[idx];
-        // toggle
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>fmt(ctx.parsed.y)}}},
+      scales:{y:{ticks:{callback:v=>fmt(v)}}},
+      onHover:(evt,active)=>{evt.native.target.style.cursor=active.length?'pointer':'default';},
+      onClick:(evt,els)=>{
+        if(!els.length) return;
+        const idx=els[0].index, label=barChart.data.labels[idx];
         selectedQuartier = (selectedQuartier===label) ? null : label;
         renderFilters(); updateAll();
       }
     }
   });
 
-  // --- Donut: répartition par type (tous types)
-  const aggT = by(rows, "Type", "Nb places");
-  const labelsT = Object.keys(aggT);
-  const dataT = labelsT.map(l=>aggT[l]);
-  const palette = ['#2563eb','#10b981','#f59e0b','#ef4444','#9333ea','#06b6d4'];
-
-  const donutCtx=document.getElementById("donutType").getContext("2d");
+  // Donut: répartition par type (tous)
+  const aggT = by(rows,"Type","Nb places");
+  const labelsT=Object.keys(aggT);
+  const dataT=labelsT.map(l=>aggT[l]);
+  const palette=['#2563eb','#10b981','#f59e0b','#ef4444','#9333ea','#06b6d4'];
+  const dctx=document.getElementById("donutType").getContext("2d");
   if(donutChart) donutChart.destroy();
-  donutChart = new Chart(donutCtx,{
+  donutChart=new Chart(dctx,{
     type:'doughnut',
-    data:{ labels:labelsT, datasets:[{ data:dataT, backgroundColor: labelsT.map((l,i)=> selectedTypes.has(l)?palette[i%palette.length]:'#d1d5db') }] },
+    data:{labels:labelsT,datasets:[{data:dataT,backgroundColor:labelsT.map((l,i)=>selectedTypes.has(l)?palette[i%palette.length]:'#d1d5db')}]},
     options:{
       responsive:true, cutout:'60%',
-      plugins:{ legend:{ position:'bottom' }, tooltip:{ callbacks:{ label:ctx=>`${ctx.label}: ${fmt(ctx.parsed)}` } } },
-      onHover:(evt,active)=>{ evt.native.target.style.cursor = active.length?'pointer':'default'; },
-      onClick:(evt,activeEls)=>{
-        if(!activeEls.length) return;
-        const idx = activeEls[0].index;
-        const type = donutChart.data.labels[idx];
-        // toggle multi-sélection
+      plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${fmt(ctx.parsed)}`}}},
+      onHover:(evt,active)=>{evt.native.target.style.cursor=active.length?'pointer':'default';},
+      onClick:(evt,els)=>{
+        if(!els.length) return;
+        const idx=els[0].index, type=donutChart.data.labels[idx];
         if(selectedTypes.has(type)) selectedTypes.delete(type); else selectedTypes.add(type);
-        if(selectedTypes.size===0){ // ne pas rester vide → réactiver tous
-          donutChart.data.labels.forEach(t=>selectedTypes.add(t));
-        }
+        if(selectedTypes.size===0) donutChart.data.labels.forEach(t=>selectedTypes.add(t));
         renderFilters(); updateAll();
       }
     }
@@ -235,33 +262,34 @@ function updateCharts(rows){
 
 // Orchestration
 function updateAll(){
-  const rows = applyFilters();
+  const rows=applyFilters();
   updateKPIs(rows);
   updateCharts(rows);
   updateTable(rows);
+  updateMap(rows);
 }
 
 // Init
 (async function init(){
-  const [creches, quartiers] = await Promise.all([
+  const [creches, quartiers]=await Promise.all([
     fetch(CRECHES_URL).then(r=>r.json()),
     fetch(QUARTIERS_URL).then(r=>r.json())
   ]);
-  CRECHES = creches.map(d=>({ Nom:d["Nom"], Quartier:d["Quartier"], Type:d["Type"], "Nb places": +d["Nb places"]||0 }));
-  QUARTIERS = quartiers.map(d=>({
-    "Micro-quartier": d["Micro-quartier"], Quartier: d["Quartier"],
+  CRECHES=creches.map(d=>({
+    Nom:d["Nom"], Quartier:d["Quartier"], Type:d["Type"], Adresse:d["Adresse"],
+    "Nb places": +d["Nb places"]||0, _lat:d["_lat"], _lon:d["_lon"]
+  }));
+  QUARTIERS=quartiers.map(d=>({
+    "Micro-quartier": d["Micro-quartier"], Quartier:d["Quartier"],
     "Population (2018)": +d["Population (2018)"]||0, "Superficie (km²)": +d["Superficie (km²)"]||0
   }));
+
   renderFilters();
   updateAll();
 
-  // Double-clic sur les canvases → reset du filtre correspondant
-  document.getElementById("barQuartier").addEventListener("dblclick", ()=>{
-    selectedQuartier=null; renderFilters(); updateAll();
-  });
-  document.getElementById("donutType").addEventListener("dblclick", ()=>{
-    selectedTypes.clear(); renderFilters(); updateAll();
-  });
+  // Double-clic pour reset graph par graph
+  document.getElementById("barQuartier").addEventListener("dblclick", ()=>{selectedQuartier=null; renderFilters(); updateAll();});
+  document.getElementById("donutType").addEventListener("dblclick", ()=>{selectedTypes.clear(); renderFilters(); updateAll();});
 })();
 </script>
 </body>
