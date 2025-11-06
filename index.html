@@ -1,245 +1,349 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Modes de garde collectif – Local</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>PRV – Mode de garde (style Power BI)</title>
 
-  <!-- Leaflet (CDN) pour la carte ; nécessite internet pour charger les tuiles -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <!-- Chart.js (pour barres & donut) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
 
   <style>
-    :root { --bg:#0b0c0f; --panel:#12141a; --panel2:#171922; --muted:#9aa3af; }
+    /* ======= Thème proche Power BI (clair) ======= */
+    :root{
+      --bg:#f5f6f8;           /* fond page */
+      --card:#ffffff;         /* fond cartes */
+      --text:#1f2937;         /* texte principal */
+      --muted:#6b7280;        /* texte secondaire */
+      --accent:#2563eb;       /* couleur d’accent (modifiable) */
+      --accent-2:#10b981;     /* 2e accent pour séries */
+      --accent-3:#f59e0b;
+      --accent-4:#ef4444;
+      --border:#e5e7eb;       /* bordure cartes */
+      --shadow:0 2px 10px rgba(0,0,0,.06);
+      --radius:12px;
+      --gap:14px;
+    }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#e5e7eb}
-    .app{display:grid;grid-template-columns:280px 1fr 320px;gap:10px;height:100vh;padding:10px}
-    .panel{background:var(--panel);border:1px solid #1f2330;border-radius:14px;overflow:hidden}
-    .left{padding:10px;display:flex;flex-direction:column}
-    .title{font-weight:700;padding:10px 12px}
-    .search{margin:6px 10px 10px}
-    .search input{width:100%;border:1px solid #283044;background:#0f1117;color:#e5e7eb;border-radius:10px;padding:10px 12px;outline:none}
-    .list{overflow:auto;padding:0 6px 10px 10px}
-    .q-item{cursor:pointer;padding:10px 12px;border-radius:10px;margin:6px 4px;background:var(--panel2);border:1px solid #232837}
-    .q-item.active{outline:2px solid #60a5fa}
-    #map{height:100%}
-    .right{padding:14px;display:flex;flex-direction:column;gap:12px}
-    .kpi{background:var(--panel2);border:1px solid #232837;border-radius:12px;padding:14px}
-    .kpi h3{margin:0 0 8px 0;font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.2px}
-    .kpi .big{font-size:36px;font-weight:800}
-    .legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#2a2f3a;font-size:12px;border:1px solid #2f3544}
-    .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
-    .note{padding:10px;color:#f59e0b;font-size:13px}
-    @media (max-width:1100px){.app{grid-template-columns:1fr;grid-template-rows:260px 1fr 260px}}
+    body{
+      margin:0; font-family: "Segoe UI", Roboto, system-ui, -apple-system, Arial, sans-serif;
+      background:var(--bg); color:var(--text);
+    }
+    .wrap{padding:18px; max-width:1400px; margin:0 auto;}
+    .header{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
+    .title{font-size:20px; font-weight:700;}
+
+    .grid{
+      display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:var(--gap);
+    }
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+      box-shadow: var(--shadow); padding:14px;
+    }
+    .kpi .label{color:var(--muted); font-size:12px; font-weight:600; letter-spacing:.2px;}
+    .kpi .value{font-size:34px; font-weight:800; margin-top:6px;}
+    .kpi .sub{color:var(--muted); font-size:12px; margin-top:4px;}
+
+    .row{display:grid; grid-template-columns: 2fr 1fr; gap:var(--gap); margin-top:var(--gap);}
+    .filters{display:flex; flex-wrap:wrap; gap:8px;}
+    .chip{
+      background:#fff; border:1px solid var(--border); border-radius:999px; padding:6px 10px; cursor:pointer;
+      box-shadow: var(--shadow); font-size:12px;
+    }
+    .chip.active{border-color:var(--accent); color:var(--accent); font-weight:600}
+
+    .table{width:100%; border-collapse:collapse; font-size:14px;}
+    .table th, .table td{padding:8px 10px; border-bottom:1px solid var(--border); text-align:left;}
+    .note{font-size:13px; color:#b45309; margin-top:8px;}
+    .error{color:#b91c1c}
+    @media (max-width: 1100px){
+      .grid{grid-template-columns:1fr 1fr}
+      .row{grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
-  <div class="app">
-    <!-- LISTE QUARTIERS -->
-    <aside class="panel left">
-      <div class="title">Quartiers</div>
-      <div class="search"><input id="search" placeholder="Rechercher un quartier..." /></div>
-      <div id="qList" class="list"></div>
-      <div id="fileNote" class="note" style="display:none"></div>
-    </aside>
-
-    <!-- CARTE -->
-    <main class="panel"><div id="map"></div></main>
+  <div class="wrap">
+    <div class="header">
+      <div class="title">PRV — Mode de garde collectif (style Power BI)</div>
+      <div class="filters" id="filters"></div>
+    </div>
 
     <!-- KPIs -->
-    <aside class="panel right">
-      <div style="padding:8px 8px 0"><h2 style="margin:6px 0 10px 2px;">Cartographie des modes de garde collectif à Nantes (local)</h2></div>
+    <div class="grid">
+      <div class="card kpi">
+        <div class="label">Nb places (collectif)</div>
+        <div class="value" id="kpiPlaces">–</div>
+        <div class="sub">Types pris en compte : Municipale, Associative, Micro-crèche</div>
+      </div>
+      <div class="card kpi">
+        <div class="label">Nombre de crèches</div>
+        <div class="value" id="kpiCreches">–</div>
+        <div class="sub">Filtre Quartier appliqué</div>
+      </div>
+      <div class="card kpi">
+        <div class="label">Places / 1000 hab</div>
+        <div class="value" id="kpiPer1k">–</div>
+        <div class="sub" id="kpiPer1kSub">Source : Population 2018</div>
+      </div>
+      <div class="card kpi">
+        <div class="label">Population</div>
+        <div class="value" id="kpiPop">–</div>
+        <div class="sub">Somme des micro-quartiers du quartier sélectionné</div>
+      </div>
+    </div>
 
-      <div class="legend" id="legend" style="padding:0 12px"></div>
+    <!-- Graphiques -->
+    <div class="row">
+      <div class="card">
+        <div class="label" style="margin-bottom:8px">Places par quartier</div>
+        <canvas id="barQuartier" height="140"></canvas>
+      </div>
+      <div class="card">
+        <div class="label" style="margin-bottom:8px">Répartition par type</div>
+        <canvas id="donutType" height="140"></canvas>
+      </div>
+    </div>
 
-      <div class="kpi">
-        <h3>Nb places crèche (collectif)</h3><div class="big" id="kpiPlaces">–</div>
-      </div>
-      <div class="kpi">
-        <h3>Nombre de crèches</h3><div class="big" id="kpiCreches">–</div>
-      </div>
-      <div class="kpi">
-        <h3>Nb places / 1000 hab</h3><div class="big" id="kpiPer1k">–</div>
-      </div>
-      <div class="kpi">
-        <h3>Population</h3><div class="big" id="kpiPop">–</div>
-      </div>
-      <div class="kpi">
-        <h3>Superficie (km²)</h3><div class="big" id="kpiArea">–</div>
-      </div>
-    </aside>
+    <!-- Tableau détail -->
+    <div class="card" style="margin-top:var(--gap);">
+      <div class="label" style="margin-bottom:8px">Liste des crèches (après filtres)</div>
+      <table class="table" id="tbl">
+        <thead><tr>
+          <th>Nom</th><th>Adresse</th><th>Quartier</th><th>Type</th><th>Nb places</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="note" id="note"></div>
+    </div>
+
+    <div class="note" id="localNote" style="display:none">
+      ⚠️ Lecture locale bloquée ? Lancez <code>python -m http.server</code> dans le dossier puis ouvrez <code>http://localhost:8000/index-pbi-like.html</code>.
+    </div>
   </div>
 
   <script>
-    // IMPORTANT : mets ce HTML dans le même dossier que DataCreches.json et DataQuartier.json
+    // ---- Config fichiers (même dossier) ----
     const CRECHES_URL   = "./DataCreches.json";
     const QUARTIERS_URL = "./DataQuartier.json";
-
-    // Couleurs par type
-    const TYPE_COLORS = {"Municipale":"#3b82f6","Associative":"#ef4444","Micro-crèche":"#f59e0b","MAM":"#a855f7"};
     const COLLECTIF_TYPES = new Set(["Municipale","Associative","Micro-crèche"]);
 
-    // Carte
-    const map = L.map('map').setView([47.218, -1.553], 12);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19}).addTo(map);
-    const markersLayer = L.layerGroup().addTo(map);
+    // ---- État ----
+    let CRECHES = [];
+    let QUARTIERS = [];
+    let selectedQuartier = null;  // filtre simple
+    let selectedTypes = new Set([...COLLECTIF_TYPES]); // filtres type
 
-    // Data
-    let creches=[], quartiers=[];
-    let selectedQuartier = null;
-
-    // UI
-    const qList = document.getElementById('qList');
-    const search = document.getElementById('search');
+    // ---- UI refs ----
     const kpiPlaces = document.getElementById('kpiPlaces');
     const kpiCreches = document.getElementById('kpiCreches');
     const kpiPer1k = document.getElementById('kpiPer1k');
+    const kpiPer1kSub = document.getElementById('kpiPer1kSub');
     const kpiPop = document.getElementById('kpiPop');
-    const kpiArea = document.getElementById('kpiArea');
-    const legend = document.getElementById('legend');
-    const fileNote = document.getElementById('fileNote');
+    const filtersDiv = document.getElementById('filters');
+    const tblBody = document.querySelector('#tbl tbody');
+    const note = document.getElementById('note');
+    const localNote = document.getElementById('localNote');
 
-    // Helpers
-    function slug(s){return (s||"").toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu,"").replace(/[^a-z0-9]+/g," ").trim();}
-    function colorFor(t){return TYPE_COLORS[t]||"#38bdf8";}
-    function circleRadius(nb){ const n=Number(nb)||0; return Math.max(6, Math.sqrt(n)*2); }
-    function cssDot(c){return `<span class="dot" style="background:${c}"></span>`;}
+    // ---- Utils ----
+    const fmt = (n, opt={}) => (n==null || isNaN(n)) ? "–" : n.toLocaleString('fr-FR', opt);
+    const uniq = arr => [...new Set(arr)];
+    const by = (arr, key) => arr.reduce((m, r) => (m[r[key]]=(m[r[key]]||0)+1, m), {});
+    const sumBy = (arr, key) => arr.reduce((s,r)=>s+(Number(r[key])||0),0);
 
-    function setKPIs(qName){
-      const byQuartier = creches.filter(c => !qName || c.Quartier===qName);
-      const placesCollectif = byQuartier
-        .filter(c => COLLECTIF_TYPES.has(c.Type))
-        .reduce((s,c)=> s + (Number(c["Nb places"])||0), 0);
-      kpiPlaces.textContent = placesCollectif.toLocaleString('fr-FR');
-      kpiCreches.textContent = byQuartier.length.toLocaleString('fr-FR');
+    // ---- Filters UI (quartier + types) ----
+    function renderFilters(){
+      const quartiers = uniq(CRECHES.map(c=>c.Quartier).filter(Boolean)).sort((a,b)=>a.localeCompare(b,'fr'));
+      const types = uniq(CRECHES.map(c=>c.Type).filter(Boolean));
 
-      // Stats micro-quartier (population/superficie)
-      let pop=null, area=null, per1k=null;
-      if(qName){
-        // Somme des micro-quartiers rattachés à ce quartier
-        const qMicro = quartiers.filter(q => (q.Quartier||"")===qName);
-        if(qMicro.length){
-          pop = qMicro.reduce((s,q)=> s + (Number(q["Population (2018)"])||0), 0);
-          area = qMicro.reduce((s,q)=> s + (Number(q["Superficie (km²)"])||0), 0);
+      // Quartier chips
+      const qChips = quartiers.map(q=>{
+        const active = q===selectedQuartier;
+        return `<div class="chip ${active?'active':''}" data-chip="quartier" data-value="${q}">${q}</div>`;
+      }).join("");
+      // Type chips
+      const tChips = types.map(t=>{
+        const active = selectedTypes.has(t);
+        return `<div class="chip ${active?'active':''}" data-chip="type" data-value="${t}">${t}</div>`;
+      }).join("");
+
+      filtersDiv.innerHTML = `
+        <div class="chip ${selectedQuartier? '':'active'}" data-chip="quartier" data-value="">Tous les quartiers</div>
+        ${qChips}
+        <span style="width:12px"></span>
+        ${tChips}
+      `;
+    }
+
+    function attachFilterEvents(){
+      filtersDiv.addEventListener('click', (e)=>{
+        const chip = e.target.closest('.chip'); if(!chip) return;
+        const kind = chip.dataset.chip;
+        const val  = chip.dataset.value;
+
+        if(kind === 'quartier'){
+          selectedQuartier = val || null;
+        }else if(kind === 'type'){
+          if(selectedTypes.has(val)) selectedTypes.delete(val);
+          else selectedTypes.add(val);
+        }
+        renderFilters();
+        updateAll();
+      });
+    }
+
+    // ---- KPIs ----
+    function updateKPIs(rows){
+      const rowsCollectif = rows.filter(r => COLLECTIF_TYPES.has(r.Type));
+      const places = sumBy(rowsCollectif, "Nb places");
+      kpiPlaces.textContent = fmt(places);
+      kpiCreches.textContent = fmt(rows.length);
+
+      // Pop et places / 1000 hab (si quartier unique)
+      let pop = null, per1k = null;
+      if(selectedQuartier){
+        const micros = QUARTIERS.filter(q=> (q.Quartier||"") === selectedQuartier);
+        if(micros.length){
+          pop = sumBy(micros, "Population (2018)");
+          per1k = pop ? (places / (pop/1000)) : null;
         }
       }
-      if(pop){ per1k = pop ? (placesCollectif / (pop/1000)) : null; }
+      kpiPop.textContent  = pop!=null ? fmt(pop) : "–";
       kpiPer1k.textContent = per1k!=null ? per1k.toFixed(2).replace('.',',') : "–";
-      kpiPop.textContent   = pop!=null ? pop.toLocaleString('fr-FR') : "–";
-      kpiArea.textContent  = area!=null ? area.toLocaleString('fr-FR',{maximumFractionDigits:2}) : "–";
+      kpiPer1kSub.textContent = selectedQuartier ? `Source : Population 2018 – ${selectedQuartier}` : "Source : Population 2018";
     }
 
-    function renderLegend(){
-      legend.innerHTML = Object.keys(TYPE_COLORS)
-        .map(t => `<span class="pill">${cssDot(TYPE_COLORS[t])}${t}</span>`).join("");
+    // ---- Tableau ----
+    function updateTable(rows){
+      const html = rows.map(r=>`
+        <tr>
+          <td>${r.Nom || ""}</td>
+          <td>${r.Adresse || ""}</td>
+          <td>${r.Quartier || ""}</td>
+          <td>${r.Type || ""}</td>
+          <td>${fmt(Number(r["Nb places"])||0)}</td>
+        </tr>
+      `).join("");
+      tblBody.innerHTML = html;
+      note.textContent = `${rows.length} élément(s)`;
     }
 
-    function renderQuartiersList(){
-      const counts = creches.reduce((acc,c)=>{
-        acc[c.Quartier] = (acc[c.Quartier]||0) + 1; return acc;
-      },{});
-      const items = Object.keys(counts).sort((a,b)=>a.localeCompare(b,'fr'));
-      qList.innerHTML = items.map(q =>
-        `<div class="q-item ${q===selectedQuartier?'active':''}" data-q="${q}">
-          <div>${q}</div><small>${counts[q]} crèches</small>
-        </div>`
-      ).join("");
+    // ---- Graphiques (Chart.js) ----
+    let barChart, donutChart;
+
+    function makeBarConfig(labels, values){
+      return {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Places',
+            data: values,
+            backgroundColor: 'rgba(37, 99, 235, 0.8)' // --accent
+          }]
+        },
+        options: {
+          responsive:true,
+          plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:ctx=>fmt(ctx.parsed.y) } } },
+          scales:{
+            x:{ ticks:{ color:'#4b5563' } },
+            y:{ ticks:{ color:'#4b5563', callback:(v)=>fmt(v) }, grid:{ color:'#e5e7eb' } }
+          }
+        }
+      };
     }
 
-    function attachListEvents(){
-      qList.addEventListener('click', (e)=>{
-        const el = e.target.closest('.q-item'); if(!el) return;
-        selectedQuartier = el.dataset.q === selectedQuartier ? null : el.dataset.q;
-        renderQuartiersList();
-        updateMap();
+    function makeDonutConfig(labels, values){
+      const palette = ['#2563eb','#10b981','#f59e0b','#ef4444','#9333ea','#06b6d4'];
+      return {
+        type:'doughnut',
+        data:{ labels, datasets:[{ data: values, backgroundColor: palette.slice(0, labels.length) }] },
+        options:{
+          responsive:true, cutout:'60%',
+          plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, color:'#374151' } },
+                    tooltip:{ callbacks:{ label:ctx=>`${ctx.label}: ${fmt(ctx.parsed)}` } } }
+        }
+      };
+    }
+
+    function updateCharts(rows){
+      // Bar: places par quartier (collectif)
+      const rowsC = rows.filter(r => COLLECTIF_TYPES.has(r.Type));
+      const grp = {};
+      rowsC.forEach(r=>{
+        const q = r.Quartier || "(N/A)";
+        grp[q] = (grp[q]||0) + (Number(r["Nb places"])||0);
       });
-      search.addEventListener('input', ()=>{
-        const needle = slug(search.value);
-        [...qList.children].forEach(li=>{
-          const show = slug(li.dataset.q).includes(needle);
-          li.style.display = show ? '' : 'none';
-        });
+      const labelsBar = Object.keys(grp).sort((a,b)=>a.localeCompare(b,'fr'));
+      const dataBar = labelsBar.map(l=>grp[l]);
+
+      const barCtx = document.getElementById('barQuartier').getContext('2d');
+      if(barChart) barChart.destroy();
+      barChart = new Chart(barCtx, makeBarConfig(labelsBar, dataBar));
+
+      // Donut: répartition par type (collectif)
+      const grpType = {};
+      rowsC.forEach(r=>{
+        const t = r.Type || "(N/A)";
+        grpType[t] = (grpType[t]||0) + (Number(r["Nb places"])||0);
+      });
+      const labelsDonut = Object.keys(grpType);
+      const dataDonut = labelsDonut.map(l=>grpType[l]);
+      const donutCtx = document.getElementById('donutType').getContext('2d');
+      if(donutChart) donutChart.destroy();
+      donutChart = new Chart(donutCtx, makeDonutConfig(labelsDonut, dataDonut));
+    }
+
+    // ---- Pipeline d’update ----
+    function applyFilters(){
+      return CRECHES.filter(r=>{
+        const okQ = !selectedQuartier || r.Quartier === selectedQuartier;
+        const okT = selectedTypes.has(r.Type);
+        return okQ && okT;
       });
     }
 
-    function clearMap(){ markersLayer.clearLayers(); }
-
-    function updateMap(){
-      clearMap();
-      const subset = creches.filter(c => !selectedQuartier || c.Quartier===selectedQuartier);
-      subset.forEach(c=>{
-        if(!c._lat || !c._lon) return; // pas géocodé => on saute
-        const marker = L.circleMarker([c._lat, c._lon], {
-          radius: circleRadius(c["Nb places"]),
-          color: colorFor(c.Type),
-          fillColor: colorFor(c.Type),
-          fillOpacity: 0.8,
-          weight: 1
-        }).bindPopup(`<b>${c.Nom||"(Sans nom)"}</b><br>${c.Adresse||""}<br>${c.Type||""}<br>Places : ${c["Nb places"]||"?"}`);
-        marker.addTo(markersLayer);
-      });
-      if(subset.length){
-        const bounds = L.latLngBounds(subset.filter(c=>c._lat&&c._lon).map(c=>[c._lat,c._lon]));
-        if(bounds.isValid()) map.fitBounds(bounds.pad(0.2));
-      }
-      setKPIs(selectedQuartier);
+    function updateAll(){
+      const rows = applyFilters();
+      updateKPIs(rows);
+      updateCharts(rows);
+      updateTable(rows);
     }
 
-    // --- Chargement des fichiers locaux ---
-    async function loadJSONLocal(path){
-      // fetch(file://) peut être bloqué selon les navigateurs.
-      try {
+    // ---- Chargement JSON ----
+    async function loadJSON(path){
+      try{
         const res = await fetch(path);
-        if(!res.ok) throw new Error("HTTP "+res.status);
+        if(!res.ok) throw new Error('HTTP '+res.status);
         return await res.json();
-      } catch (e) {
-        // Affiche une note pour l'utilisateur
-        fileNote.style.display = "block";
-        fileNote.innerHTML = "⚠️ Votre navigateur bloque parfois la lecture locale des fichiers.<br>"+
-          "Si la liste reste vide, lancez un mini serveur dans ce dossier (par ex. <code>py -m http.server</code> ou <code>python -m http.server</code>) "+
-          "puis ouvrez <code>http://localhost:8000/index.html</code>.";
+      }catch(e){
+        localNote.style.display = 'block';
         throw e;
       }
     }
 
-    // --- Géocodage minimal offline-friendly (cache obligatoire) ---
-    // Ici, on suppose que tes JSON contiennent déjà des coordonnées *_lat/_lon*.
-    // Si ce n'est pas le cas, ajoute-les une fois (via script) pour rester 100% local.
-    function ensureLatLonWarning(rows){
-      const missing = rows.filter(r=>!(r._lat && r._lon)).length;
-      if(missing){
-        fileNote.style.display = "block";
-        fileNote.innerHTML = "ℹ️ Astuce : pour une utilisation 100% locale/offline, ajoute des colonnes <code>_lat</code> et <code>_lon</code> aux crèches (géocodées une fois) dans <code>DataCreches.json</code>.";
-      }
-    }
-
-    // --- Main ---
     (async function init(){
       try{
-        [creches, quartiers] = await Promise.all([
-          loadJSONLocal(CRECHES_URL),
-          loadJSONLocal(QUARTIERS_URL)
+        [CRECHES, QUARTIERS] = await Promise.all([
+          loadJSON(CRECHES_URL),
+          loadJSON(QUARTIERS_URL)
         ]);
 
-        // nettoyage des champs attendus
-        creches = creches.map(d=>({
-          Type: d["Type"], Nom: d["Nom"], Adresse: d["Adresse"],
-          Quartier: d["Quartier"], "Nb places": Number(d["Nb places"])||0,
-          "Micro-Quartier": d["Micro-Quartier"], _lat: d["_lat"], _lon: d["_lon"]
+        // Normalisation (noms de colonnes attendus)
+        CRECHES = CRECHES.map(d=>({
+          Nom: d["Nom"], Adresse: d["Adresse"], Quartier: d["Quartier"],
+          Type: d["Type"], "Nb places": Number(d["Nb places"])||0
         }));
-        quartiers = quartiers.map(d=>({
+        QUARTIERS = QUARTIERS.map(d=>({
           "Micro-quartier": d["Micro-quartier"],
           Quartier: d["Quartier"],
           "Population (2018)": Number(d["Population (2018)"])||0,
           "Superficie (km²)": Number(d["Superficie (km²)"])||0
         }));
 
-        renderLegend();
-        renderQuartiersList();
-        attachListEvents();
-        ensureLatLonWarning(creches);
-        updateMap();
+        renderFilters();
+        attachFilterEvents();
+        updateAll();
       }catch(e){
         console.error(e);
       }
