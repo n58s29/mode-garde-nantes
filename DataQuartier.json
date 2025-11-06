@@ -1,0 +1,681 @@
+[
+  {
+    "Quartier":"Centre-ville",
+    "Micro-quartier":"Bretagne",
+    "Superficie (km²)":0.19,
+    "Population (2018)":1860,
+    "Densité (hab.\/km²)":9649
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Champ de Mars",
+    "Superficie (km²)":0.3,
+    "Population (2018)":2331,
+    "Densité (hab.\/km²)":7770
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Decré-Cathédrale",
+    "Superficie (km²)":0.45,
+    "Population (2018)":6268,
+    "Densité (hab.\/km²)":13943
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Dobrée-Bon Port",
+    "Superficie (km²)":0.32,
+    "Population (2018)":4836,
+    "Densité (hab.\/km²)":14969
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Gloriette-Feydeau",
+    "Superficie (km²)":0.31,
+    "Population (2018)":1735,
+    "Densité (hab.\/km²)":5686
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Graslin-Commerce",
+    "Superficie (km²)":0.3,
+    "Population (2018)":4856,
+    "Densité (hab.\/km²)":16260
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Guist'hau",
+    "Superficie (km²)":0.2,
+    "Population (2018)":2640,
+    "Densité (hab.\/km²)":13238
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Madeleine",
+    "Superficie (km²)":0.29,
+    "Population (2018)":3802,
+    "Densité (hab.\/km²)":13110
+  },
+  {
+    "Quartier":"Bellevue - Chantenay - Sainte-Anne",
+    "Micro-quartier":"Boucardière-Mallève",
+    "Superficie (km²)":0.47,
+    "Population (2018)":2218,
+    "Densité (hab.\/km²)":4699
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Cheviré-Zone portuaire",
+    "Superficie (km²)":3.41,
+    "Population (2018)":504,
+    "Densité (hab.\/km²)":148
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Croix Bonneau-Bourderies",
+    "Superficie (km²)":0.34,
+    "Population (2018)":2733,
+    "Densité (hab.\/km²)":8127
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Jean-Macé",
+    "Superficie (km²)":0.48,
+    "Population (2018)":3300,
+    "Densité (hab.\/km²)":6909
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Lauriers",
+    "Superficie (km²)":0.43,
+    "Population (2018)":4442,
+    "Densité (hab.\/km²)":10433
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Mairie de Chantenay",
+    "Superficie (km²)":0.41,
+    "Population (2018)":3179,
+    "Densité (hab.\/km²)":7718
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Mendès-France",
+    "Superficie (km²)":0.34,
+    "Population (2018)":3393,
+    "Densité (hab.\/km²)":9858
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Plessis Cellier-Roche Maurice",
+    "Superficie (km²)":0.69,
+    "Population (2018)":1965,
+    "Densité (hab.\/km²)":2859
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Salorges-Sainte-Anne",
+    "Superficie (km²)":0.59,
+    "Population (2018)":4175,
+    "Densité (hab.\/km²)":7098
+  },
+  {
+    "Quartier":"Dervallières - Zola",
+    "Micro-quartier":"Bouhier",
+    "Superficie (km²)":0.1,
+    "Population (2018)":2019,
+    "Densité (hab.\/km²)":20190
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Canclaux",
+    "Superficie (km²)":0.26,
+    "Population (2018)":3127,
+    "Densité (hab.\/km²)":12041
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Contrie",
+    "Superficie (km²)":0.55,
+    "Population (2018)":2634,
+    "Densité (hab.\/km²)":4772
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Dervallières-Chézine",
+    "Superficie (km²)":0.59,
+    "Population (2018)":5165,
+    "Densité (hab.\/km²)":8714
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Durantière",
+    "Superficie (km²)":0.9,
+    "Population (2018)":4590,
+    "Densité (hab.\/km²)":5088
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Gare Maritime",
+    "Superficie (km²)":0.19,
+    "Population (2018)":2790,
+    "Densité (hab.\/km²)":14685
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Grillaud-Procé",
+    "Superficie (km²)":0.38,
+    "Population (2018)":4619,
+    "Densité (hab.\/km²)":12281
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Joncours-Procé",
+    "Superficie (km²)":0.24,
+    "Population (2018)":1932,
+    "Densité (hab.\/km²)":7990
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Mellinet",
+    "Superficie (km²)":0.2,
+    "Population (2018)":1913,
+    "Densité (hab.\/km²)":9584
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Petit Bois",
+    "Superficie (km²)":0.19,
+    "Population (2018)":2168,
+    "Densité (hab.\/km²)":11617
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Zola",
+    "Superficie (km²)":0.72,
+    "Population (2018)":6212,
+    "Densité (hab.\/km²)":8578
+  },
+  {
+    "Quartier":"Hauts-Pavés - Saint-Félix",
+    "Micro-quartier":"Bellamy-Barbin",
+    "Superficie (km²)":0.3,
+    "Population (2018)":3401,
+    "Densité (hab.\/km²)":11524
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Hauts-Pavés",
+    "Superficie (km²)":0.3,
+    "Population (2018)":2263,
+    "Densité (hab.\/km²)":7444
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Monselet",
+    "Superficie (km²)":0.54,
+    "Population (2018)":5821,
+    "Densité (hab.\/km²)":10704
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Procé",
+    "Superficie (km²)":0.6,
+    "Population (2018)":4346,
+    "Densité (hab.\/km²)":7279
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Rennes-Bellamy",
+    "Superficie (km²)":0.34,
+    "Population (2018)":3226,
+    "Densité (hab.\/km²)":9436
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Saint-Félix",
+    "Superficie (km²)":0.37,
+    "Population (2018)":3992,
+    "Densité (hab.\/km²)":10669
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Talensac-Pont Morand",
+    "Superficie (km²)":0.38,
+    "Population (2018)":3874,
+    "Densité (hab.\/km²)":10265
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Université-Michelet",
+    "Superficie (km²)":0.89,
+    "Population (2018)":3404,
+    "Densité (hab.\/km²)":3829
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Vannes-Saint-Pasquier",
+    "Superficie (km²)":0.34,
+    "Population (2018)":3983,
+    "Densité (hab.\/km²)":11647
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Viarme",
+    "Superficie (km²)":0.15,
+    "Population (2018)":2468,
+    "Densité (hab.\/km²)":17014
+  },
+  {
+    "Quartier":"Malakoff - Saint-Donatien",
+    "Micro-quartier":"Agenêts",
+    "Superficie (km²)":0.38,
+    "Population (2018)":3650,
+    "Densité (hab.\/km²)":9705
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Caserne Mellinet",
+    "Superficie (km²)":0.44,
+    "Population (2018)":1860,
+    "Densité (hab.\/km²)":4185
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Coudray",
+    "Superficie (km²)":0.37,
+    "Population (2018)":2884,
+    "Densité (hab.\/km²)":7838
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Coulmiers-Jardin des Plantes",
+    "Superficie (km²)":0.47,
+    "Population (2018)":4147,
+    "Densité (hab.\/km²)":8792
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Dalby",
+    "Superficie (km²)":0.35,
+    "Population (2018)":4224,
+    "Densité (hab.\/km²)":12242
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Malakoff",
+    "Superficie (km²)":0.88,
+    "Population (2018)":3504,
+    "Densité (hab.\/km²)":3983
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Richebourg-Saint-Clément",
+    "Superficie (km²)":0.28,
+    "Population (2018)":3902,
+    "Densité (hab.\/km²)":13791
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Saint-Donatien",
+    "Superficie (km²)":0.42,
+    "Population (2018)":3271,
+    "Densité (hab.\/km²)":7712
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Toutes Aides",
+    "Superficie (km²)":0.3,
+    "Population (2018)":1941,
+    "Densité (hab.\/km²)":6515
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Vieux Malakoff",
+    "Superficie (km²)":0.69,
+    "Population (2018)":2207,
+    "Densité (hab.\/km²)":3220
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Waldeck-Sully",
+    "Superficie (km²)":0.32,
+    "Population (2018)":3701,
+    "Densité (hab.\/km²)":11703
+  },
+  {
+    "Quartier":"Île de Nantes",
+    "Micro-quartier":"Beaulieu-Mangin",
+    "Superficie (km²)":0.82,
+    "Population (2018)":5532,
+    "Densité (hab.\/km²)":6729
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Île Beaulieu",
+    "Superficie (km²)":1.51,
+    "Population (2018)":6347,
+    "Densité (hab.\/km²)":4192
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"République-Les Ponts",
+    "Superficie (km²)":0.65,
+    "Population (2018)":5662,
+    "Densité (hab.\/km²)":8765
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Sainte-Anne-Zone portuaire",
+    "Superficie (km²)":1.51,
+    "Population (2018)":1301,
+    "Densité (hab.\/km²)":859
+  },
+  {
+    "Quartier":"Breil - Barberie",
+    "Micro-quartier":"Barberie",
+    "Superficie (km²)":0.3,
+    "Population (2018)":2188,
+    "Densité (hab.\/km²)":7224
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Beauséjour",
+    "Superficie (km²)":0.33,
+    "Population (2018)":3646,
+    "Densité (hab.\/km²)":10917
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Breil-Malville",
+    "Superficie (km²)":0.35,
+    "Population (2018)":4141,
+    "Densité (hab.\/km²)":11785
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Carcouët",
+    "Superficie (km²)":0.4,
+    "Population (2018)":1657,
+    "Densité (hab.\/km²)":4149
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Gaudinière",
+    "Superficie (km²)":0.49,
+    "Population (2018)":2929,
+    "Densité (hab.\/km²)":5934
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Perverie",
+    "Superficie (km²)":0.29,
+    "Population (2018)":1601,
+    "Densité (hab.\/km²)":5530
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Rond-point de Rennes",
+    "Superficie (km²)":0.3,
+    "Population (2018)":1941,
+    "Densité (hab.\/km²)":6506
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Route de Vannes",
+    "Superficie (km²)":0.54,
+    "Population (2018)":4565,
+    "Densité (hab.\/km²)":8525
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Schuman",
+    "Superficie (km²)":0.49,
+    "Population (2018)":3574,
+    "Densité (hab.\/km²)":7346
+  },
+  {
+    "Quartier":"Nantes Nord",
+    "Micro-quartier":"Boissière",
+    "Superficie (km²)":0.31,
+    "Population (2018)":2549,
+    "Densité (hab.\/km²)":8183
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Bourgeonnière-Petit Port",
+    "Superficie (km²)":1.26,
+    "Population (2018)":4373,
+    "Densité (hab.\/km²)":3472
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Bout des Landes",
+    "Superficie (km²)":1.29,
+    "Population (2018)":2377,
+    "Densité (hab.\/km²)":1845
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Bout des Pavés-Chêne des Anglais",
+    "Superficie (km²)":0.59,
+    "Population (2018)":4816,
+    "Densité (hab.\/km²)":8190
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Chauvinière",
+    "Superficie (km²)":0.3,
+    "Population (2018)":1177,
+    "Densité (hab.\/km²)":3956
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Hauts de Gesvre",
+    "Superficie (km²)":1.17,
+    "Population (2018)":1881,
+    "Densité (hab.\/km²)":1607
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Jonelière-Université",
+    "Superficie (km²)":1.51,
+    "Population (2018)":3571,
+    "Densité (hab.\/km²)":2364
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Pont du Cens-Côte d'Or",
+    "Superficie (km²)":0.62,
+    "Population (2018)":4035,
+    "Densité (hab.\/km²)":6476
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Santos-Dumont",
+    "Superficie (km²)":0.47,
+    "Population (2018)":2052,
+    "Densité (hab.\/km²)":4325
+  },
+  {
+    "Quartier":"Nantes Erdre",
+    "Micro-quartier":"Beaujoire-Halvêque",
+    "Superficie (km²)":1.95,
+    "Population (2018)":5178,
+    "Densité (hab.\/km²)":2656
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Chantrerie-Gachet",
+    "Superficie (km²)":2.79,
+    "Population (2018)":1792,
+    "Densité (hab.\/km²)":643
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Éraudière-Renaudière",
+    "Superficie (km²)":1.24,
+    "Population (2018)":4171,
+    "Densité (hab.\/km²)":3372
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Plessis Tison",
+    "Superficie (km²)":0.39,
+    "Population (2018)":2224,
+    "Densité (hab.\/km²)":5668
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Port Boyer",
+    "Superficie (km²)":0.24,
+    "Population (2018)":2274,
+    "Densité (hab.\/km²)":9436
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Ranzay-Grand Clos",
+    "Superficie (km²)":0.92,
+    "Population (2018)":3158,
+    "Densité (hab.\/km²)":3440
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Saint-Joseph-Bourg",
+    "Superficie (km²)":0.92,
+    "Population (2018)":4946,
+    "Densité (hab.\/km²)":5375
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Saint-Joseph-Erdre",
+    "Superficie (km²)":2.7,
+    "Population (2018)":4921,
+    "Densité (hab.\/km²)":1820
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Tortière",
+    "Superficie (km²)":0.29,
+    "Population (2018)":2762,
+    "Densité (hab.\/km²)":9556
+  },
+  {
+    "Quartier":"Doulon - Bottière",
+    "Micro-quartier":"Le Bois Briand",
+    "Superficie (km²)":1.9,
+    "Population (2018)":1529,
+    "Densité (hab.\/km²)":805
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"La Bottière",
+    "Superficie (km²)":0.3,
+    "Population (2018)":3880,
+    "Densité (hab.\/km²)":12970
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Boulevard des Poilus",
+    "Superficie (km²)":0.6,
+    "Population (2018)":3568,
+    "Densité (hab.\/km²)":5963
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Haluchère-Perray",
+    "Superficie (km²)":0.9,
+    "Population (2018)":4161,
+    "Densité (hab.\/km²)":4604
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Jules Verne",
+    "Superficie (km²)":0.23,
+    "Population (2018)":2626,
+    "Densité (hab.\/km²)":11433
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Le Landreau",
+    "Superficie (km²)":0.8,
+    "Population (2018)":3695,
+    "Densité (hab.\/km²)":4603
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Mairie de Doulon",
+    "Superficie (km²)":1.14,
+    "Population (2018)":4023,
+    "Densité (hab.\/km²)":3543
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Les Mauves",
+    "Superficie (km²)":2.79,
+    "Population (2018)":237,
+    "Densité (hab.\/km²)":85
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Pilotière",
+    "Superficie (km²)":0.38,
+    "Population (2018)":2413,
+    "Densité (hab.\/km²)":6407
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Pin Sec",
+    "Superficie (km²)":0.15,
+    "Population (2018)":1822,
+    "Densité (hab.\/km²)":12525
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Route de Sainte-Luce",
+    "Superficie (km²)":0.91,
+    "Population (2018)":3800,
+    "Densité (hab.\/km²)":4175
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Le Vieux Doulon",
+    "Superficie (km²)":1.49,
+    "Population (2018)":3246,
+    "Densité (hab.\/km²)":2184
+  },
+  {
+    "Quartier":"Nantes Sud",
+    "Micro-quartier":"Grêneraie-Clos Torreau",
+    "Superficie (km²)":0.5,
+    "Population (2018)":3359,
+    "Densité (hab.\/km²)":6704
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Lion d'Or-Gilarderie",
+    "Superficie (km²)":0.48,
+    "Population (2018)":1839,
+    "Densité (hab.\/km²)":3795
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Saint-Jacques-Pirmil",
+    "Superficie (km²)":0.67,
+    "Population (2018)":2028,
+    "Densité (hab.\/km²)":3020
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Saint-Jacques-Ripossière",
+    "Superficie (km²)":0.51,
+    "Population (2018)":2636,
+    "Densité (hab.\/km²)":5132
+  },
+  {
+    "Quartier":null,
+    "Micro-quartier":"Sèvre",
+    "Superficie (km²)":0.65,
+    "Population (2018)":2451,
+    "Densité (hab.\/km²)":3746
+  }
+]

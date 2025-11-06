@@ -1,0 +1,1122 @@
+[
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Bellevue",
+    "Adresse": "2 Rue Etienne Coutan, 44100 Nantes, France",
+    "Quartier": "Bellevue - Chantenay - Sainte-Anne",
+    "Micro-Quartier": "Mendes France",
+    "Nb places": 75,
+    "_lat": 47.205357,
+    "_lon": -1.6074614
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Les 5 Continents",
+    "Adresse": "27 Rue du Jamet, 44100 Nantes, France",
+    "Quartier": "Bellevue - Chantenay - Sainte-Anne",
+    "Micro-Quartier": "Lauriers",
+    "Nb places": 20,
+    "_lat": 47.2077395,
+    "_lon": -1.6054473
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Bourderies, antenne des 5 Continents",
+    "Adresse": "1 Rue de Saint Brévin, 44100 Nantes, France",
+    "Quartier": "Bellevue - Chantenay - Sainte-Anne",
+    "Micro-Quartier": "Croix Bonneau - Bourderies",
+    "Nb places": 20,
+    "_lat": 47.2067178,
+    "_lon": -1.5966584
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Les Petits Pieds",
+    "Adresse": "78 Rue du Bouillon, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Contrie",
+    "Nb places": 40,
+    "_lat": 47.2165346,
+    "_lon": -1.5990782
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Fluffy",
+    "Adresse": "231 Boulevard du Massacre, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Dervallières - Chézine",
+    "Nb places": 48,
+    "_lat": 47.2269435,
+    "_lon": -1.6003187
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Chlorophylle",
+    "Adresse": "Rue Auguste Renoir, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Dervallières - Chézine",
+    "Nb places": 70,
+    "_lat": 47.2242814,
+    "_lon": -1.5964602
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro Crèche l'ilôt Rêves",
+    "Adresse": "118 Rue des Renardières, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Zola",
+    "Nb places": 10,
+    "_lat": 47.2135085,
+    "_lon": -1.5962397
+  },
+  {
+    "Type": "Entreprise",
+    "Nom": "Crèche inter-entreprise Une Souris Verte 2",
+    "Adresse": "1 Impasse Brochard, 44100 Nantes, France",
+    "Quartier": "Bellevue - Chantenay - Sainte-Anne",
+    "Micro-Quartier": "Croix Bonneau - Bourderies",
+    "Nb places": 30,
+    "_lat": 47.2081913,
+    "_lon": -1.5951558
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Crèche associative Le Jardin des Poupies",
+    "Adresse": "3 Rue Louis Brisset, 44100 Nantes, France",
+    "Quartier": "Breil - Barberie",
+    "Micro-Quartier": "Carcouet",
+    "Nb places": 75,
+    "_lat": 47.2281262,
+    "_lon": -1.5943556
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro crèche Coucou hibou Chantenay I",
+    "Adresse": "28 Rue Maurice Terrien, 44100 Nantes, France",
+    "Quartier": "Bellevue - Chantenay - Sainte-Anne",
+    "Micro-Quartier": "Mairie de Chantenay",
+    "Nb places": 10,
+    "_lat": 47.2036109,
+    "_lon": -1.5917342
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Le Jardin de Jules Verne",
+    "Adresse": "19 Rue des Réformes, 44100 Nantes, France",
+    "Quartier": "Bellevue - Chantenay - Sainte-Anne",
+    "Micro-Quartier": "Jean Macé",
+    "Nb places": 80,
+    "_lat": 47.1991298,
+    "_lon": -1.5915974
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Breil Malville",
+    "Adresse": "49 Rue de la Maison Blanche, 44100 Nantes, France",
+    "Quartier": "Breil - Barberie",
+    "Micro-Quartier": "Breil-Malville",
+    "Nb places": 20,
+    "_lat": 47.2302197,
+    "_lon": -1.5869609
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Des Premiers Pas",
+    "Adresse": "3 Rue du Bois Hercé, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Zola",
+    "Nb places": 45,
+    "_lat": 47.2095827,
+    "_lon": -1.5876448
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro crèche Coucou hibou Chantenay II",
+    "Adresse": "51 Rue Galilée, 44100 Nantes, France",
+    "Quartier": "Bellevue - Chantenay - Sainte-Anne",
+    "Micro-Quartier": "Mairie de Chantenay",
+    "Nb places": 10,
+    "_lat": 47.2066358,
+    "_lon": -1.5859723
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Nos Petits Pouces",
+    "Adresse": "35 Rue des Dervallières, 44000 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Grillaud - Procé",
+    "Nb places": 10,
+    "_lat": 47.2224275,
+    "_lon": -1.582431
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Nos Petits Pouces",
+    "Adresse": "6 Avenue du Parc de Procé, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Grillaud - Procé",
+    "Nb places": 10,
+    "_lat": 47.2178332,
+    "_lon": -1.5823001
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Nos Petits Pouces",
+    "Adresse": "5 Rue des Aveneaux, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Quai de la Fosse",
+    "Nb places": 10,
+    "_lat": 47.208051,
+    "_lon": -1.580703
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Crèche Le Jardin des Lucioles",
+    "Adresse": "22 Rue de Malville, 44100 Nantes, France",
+    "Quartier": "Breil - Barberie",
+    "Micro-Quartier": "Rd pt de Vannes",
+    "Nb places": 44,
+    "_lat": 47.2329478,
+    "_lon": -1.5819491
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Saint-Luc",
+    "Adresse": "23 Rue Bouchaud, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Canclaux",
+    "Nb places": 62,
+    "_lat": 47.2171603,
+    "_lon": -1.5798463
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil La Petite Maison de Procé, antenne de Breil-Malville",
+    "Adresse": "42 Rue des Dervallières, 44000 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Grillaud - Procé",
+    "Nb places": 15,
+    "_lat": 47.222599,
+    "_lon": -1.5801242
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Minihome Avenue du Petit Clos",
+    "Adresse": "2 Avenue du Petit Clos, 44300 Nantes, France",
+    "Quartier": "Breil - Barberie",
+    "Micro-Quartier": "Rd pt de Vannes",
+    "Nb places": 10,
+    "_lat": 47.2339378,
+    "_lon": -1.5788374
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Ma Petite Planète",
+    "Adresse": "39 Rue Fernand Pineau Chaillou, 44300 Nantes, France",
+    "Quartier": "Breil - Barberie",
+    "Micro-Quartier": "Rd pt de Vannes",
+    "Nb places": 40,
+    "_lat": 47.2358857,
+    "_lon": -1.5791612
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Minibou",
+    "Adresse": "5B Rue Diane, 44300 Nantes, France",
+    "Quartier": "Breil - Barberie",
+    "Micro-Quartier": "Gaudinière",
+    "Nb places": 20,
+    "_lat": 47.240283,
+    "_lon": -1.5777225
+  },
+  {
+    "Type": "Entreprise",
+    "Nom": "Crèche inter-entreprise Une Souris Verte 1",
+    "Adresse": "13 Ter Rue Bisson, 44100 Nantes, France",
+    "Quartier": "Bellevue - Chantenay - Sainte-Anne",
+    "Micro-Quartier": "Salorges - Ste Anne",
+    "Nb places": 30,
+    "_lat": 47.2060248,
+    "_lon": -1.57626
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Les Bambins d'Héloïse",
+    "Adresse": "2 Boulevard Jean XXIII, 44100 Nantes, France",
+    "Quartier": "Breil - Barberie",
+    "Micro-Quartier": "Rd pt de Vannes",
+    "Nb places": 10,
+    "_lat": 47.2298062,
+    "_lon": -1.5725023
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche les Berlingots",
+    "Adresse": "93 Rue de la Bastille, 44000 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Monselet",
+    "Nb places": 10,
+    "_lat": 47.2202769,
+    "_lon": -1.5736769
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Minihome",
+    "Adresse": "9 Rue Linné, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Quai de la Fosse",
+    "Nb places": 10,
+    "_lat": 47.2109713,
+    "_lon": -1.572983
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative La Toupie Magique de l'Ile",
+    "Adresse": "6 Rue Ruth First, 44200 Nantes, France",
+    "Quartier": "Île de Nantes",
+    "Micro-Quartier": "Ste Anne-Zone Portuaire",
+    "Nb places": 99,
+    "_lat": 47.2033559,
+    "_lon": -1.5679533
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Nos petits pouces",
+    "Adresse": "13 Rue d'Alger, 44100 Nantes, France",
+    "Quartier": "Centre-ville",
+    "Micro-Quartier": "Dobree-Bon Port",
+    "Nb places": 10,
+    "_lat": 47.2103789,
+    "_lon": -1.5677106
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crêche associative Jour de crèche",
+    "Adresse": "4 Passage Eugène Livet, 44100 Nantes, France",
+    "Quartier": "Centre-ville",
+    "Micro-Quartier": "Dobree-Bon Port",
+    "Nb places": 60,
+    "_lat": 47.2122389,
+    "_lon": -1.5680373
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative La Toupie Magique",
+    "Adresse": "9B Rue Félibien, 44000 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Monselet",
+    "Nb places": 37,
+    "_lat": 47.2207827,
+    "_lon": -1.5646649
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative La Boîte à Musique",
+    "Adresse": "1 Allée Michel Chaillou, 44000 Nantes, France",
+    "Quartier": "Centre-ville",
+    "Micro-Quartier": "Guist'hau",
+    "Nb places": 40,
+    "_lat": 47.2179622,
+    "_lon": -1.5645737
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Mickey et Minnie",
+    "Adresse": "3 Avenue Charles Jegou, 44000 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Viarme",
+    "Nb places": 40,
+    "_lat": 47.2223473,
+    "_lon": -1.5644718
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Médiathèque, antenne de Sully",
+    "Adresse": "15 Rue de l'Héronnière, 44000 Nantes, France",
+    "Quartier": "Centre-ville",
+    "Micro-Quartier": "Graslin - Commerce",
+    "Nb places": 50,
+    "_lat": 47.2112936,
+    "_lon": -1.562875
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Crèche associative Le Petit Oranger",
+    "Adresse": "1T Place du Martray, 44000 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Viarme",
+    "Nb places": 60,
+    "_lat": 47.2200898,
+    "_lon": -1.5607127
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Marion Cahour, antenne de Nouvelle Vague",
+    "Adresse": "18 Rue de Savenay, 44000 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Talensac - Pont Morand",
+    "Nb places": 20,
+    "_lat": 47.2223898,
+    "_lon": -1.5612349
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Nouvelle Vague",
+    "Adresse": "12 Rue de Savenay, 44000 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Talensac - Pont Morand",
+    "Nb places": 60,
+    "_lat": 47.2223123,
+    "_lon": -1.560481
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Crèche associative Adélaïde",
+    "Adresse": "91 Rue Paul Bellamy, 44000 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Talensac - Pont Morand",
+    "Nb places": 40,
+    "_lat": 47.2262657,
+    "_lon": -1.5601714
+  },
+  {
+    "Type": "Entreprise",
+    "Nom": "Crèche inter-entreprises Les petits chaperons rouges Herriot",
+    "Adresse": "2 Rue Président Edouard Herriot, 44000 Nantes, France",
+    "Quartier": "Centre-ville",
+    "Micro-Quartier": "Bretagne",
+    "Nb places": 31,
+    "_lat": 47.2180017,
+    "_lon": -1.5592326
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Nos Petits Pouces Saint Félix",
+    "Adresse": "4 Rue Amédée Ménard, 44300 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Université - Michelet",
+    "Nb places": 10,
+    "_lat": 47.2342527,
+    "_lon": -1.5612267
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Les P'tits Dauphins",
+    "Adresse": "20 Boulevard du Petit Port, 44300 Nantes, France",
+    "Quartier": "Nantes Nord",
+    "Micro-Quartier": "Pont du Cens-Côte d'Or",
+    "Nb places": 40,
+    "_lat": 47.2427285,
+    "_lon": -1.5562346
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Michelet",
+    "Adresse": "12 Boulevard Michelet, 44000 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Université - Michelet",
+    "Nb places": 90,
+    "_lat": 47.2323707,
+    "_lon": -1.5564148
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Les Bambins de Talensac",
+    "Adresse": "5 Rue Jeanne d'Arc, 44000 Nantes, France",
+    "Quartier": "Centre-ville",
+    "Micro-Quartier": "Bretagne",
+    "Nb places": 10,
+    "_lat": 47.2207911,
+    "_lon": -1.5564408
+  },
+  {
+    "Type": "Entreprise",
+    "Nom": "Crèche inter-entreprise Une Souris Verte 4",
+    "Adresse": "13 Quai Henri Barbusse, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Waldeck - Sully",
+    "Nb places": 40,
+    "_lat": 47.224511,
+    "_lon": -1.5527942
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Bout des Landes, antenne de Chêne des Anglais",
+    "Adresse": "12 Rue de Concarneau, 44300 Nantes, France",
+    "Quartier": "Nantes Nord",
+    "Micro-Quartier": "Bout des Landes",
+    "Nb places": 15,
+    "_lat": 47.2661057,
+    "_lon": -1.5783982
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Ti Canailloux",
+    "Adresse": "71B Avenue du Bout des Landes, 44300 Nantes, France",
+    "Quartier": "Nantes Nord",
+    "Micro-Quartier": "Bout des Pavés-Chêne des Anglais",
+    "Nb places": 30,
+    "_lat": 47.2628834,
+    "_lon": -1.5799587
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Vanille Chocolat",
+    "Adresse": "71 Route de la Chapelle Sur Erdre, 44300 Nantes, France",
+    "Quartier": "Nantes Nord",
+    "Micro-Quartier": "Chauvinière",
+    "Nb places": 60,
+    "_lat": 47.258787,
+    "_lon": -1.5753538
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Chêne des Anglais",
+    "Adresse": "7T Rue Jacques Cartier, 44300 Nantes, France",
+    "Quartier": "Nantes Nord",
+    "Micro-Quartier": "Bout des Pavés-Chêne des Anglais",
+    "Nb places": 40,
+    "_lat": 47.2591789,
+    "_lon": -1.5730099
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Graines d'étoiles",
+    "Adresse": "7 Rue Santos Dumont, 44300 Nantes, France",
+    "Quartier": "Nantes Nord",
+    "Micro-Quartier": "Santos Dumont",
+    "Nb places": 45,
+    "_lat": 47.2597806,
+    "_lon": -1.5668974
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Halvêque",
+    "Adresse": "3B Square Bernard Lijot, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "Beaujoire - Halvêque",
+    "Nb places": 20,
+    "_lat": 47.256324,
+    "_lon": -1.5195716
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Eiffel, antenne d'Halvêque",
+    "Adresse": "15 Rue Gustave Eiffel, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "Beaujoire - Halvêque",
+    "Nb places": 20,
+    "_lat": 47.2570151,
+    "_lon": -1.5193442
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Tauzins, antenne de Saint-Joseph-de-Porterie",
+    "Adresse": "3 Passage des Tauzins, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "St Joseph de Porterie",
+    "Nb places": 20,
+    "_lat": 47.2662144,
+    "_lon": -1.5196742
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Saint Joseph de Porterie",
+    "Adresse": "6B Rue du Bêle, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "Beaujoire - Halvêque",
+    "Nb places": 30,
+    "_lat": 47.2694703,
+    "_lon": -1.5191553
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Hänsel et Gretel",
+    "Adresse": "3 Rue de la Planche au Gué, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "St Joseph de Porterie",
+    "Nb places": 40,
+    "_lat": 47.2692265,
+    "_lon": -1.5219227
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro crèche la cabane d'Achille et Camille",
+    "Adresse": "33 Rue de la Planche au Gué, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "St Joseph de Porterie",
+    "Nb places": 10,
+    "_lat": 47.2721313,
+    "_lon": -1.5207134
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Rêve et Ritournelle",
+    "Adresse": "3 Rue Edouard Nignon, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "St Joseph de Porterie",
+    "Nb places": 40,
+    "_lat": 47.2761467,
+    "_lon": -1.5121731
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Coucou Hibou",
+    "Adresse": "53 Avenue Maurice Clétras, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "Le Bois Briand",
+    "Nb places": 10,
+    "_lat": 47.2522943,
+    "_lon": -1.5094865
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Les pieds dans l'eau",
+    "Adresse": "1 Impasse des Orchestres, 44200 Nantes, France",
+    "Quartier": "Nantes Sud",
+    "Micro-Quartier": "Sèvre",
+    "Nb places": 10,
+    "_lat": 47.1852256,
+    "_lon": -1.5231319
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Brin de Malice",
+    "Adresse": "19 Rue de la Ripossière, 44200 Nantes, France",
+    "Quartier": "Nantes Sud",
+    "Micro-Quartier": "St Jacques - Ripossière",
+    "Nb places": 60,
+    "_lat": 47.1931087,
+    "_lon": -1.531541
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Nantes Sud",
+    "Adresse": "5 Place du Muguet Nantais, 44200 Nantes, France",
+    "Quartier": "Nantes Sud",
+    "Micro-Quartier": "Gde Grèneraie - Clos Toreau",
+    "Nb places": 40,
+    "_lat": 47.1945917,
+    "_lon": -1.5285472
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Crèche du CHU Les Petits Pirates",
+    "Adresse": "52 Route de Saint Sébastien, 44200 Nantes, France",
+    "Quartier": "Nantes Sud",
+    "Micro-Quartier": "Gde Grèneraie - Clos Toreau",
+    "Nb places": 40,
+    "_lat": 47.1992987,
+    "_lon": -1.5298423
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Minihome Quai André Rhuys",
+    "Adresse": "1 Rue Michel Columb, 44200 Nantes, France",
+    "Quartier": "Île de Nantes",
+    "Micro-Quartier": "Republique-Les Ponts",
+    "Nb places": 10,
+    "_lat": 47.2070043,
+    "_lon": -1.5533817
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative La Lanterne Magique",
+    "Adresse": "7 Boulevard Babin Chevaye, 44200 Nantes, France",
+    "Quartier": "Île de Nantes",
+    "Micro-Quartier": "Republique-Les Ponts",
+    "Nb places": 35,
+    "_lat": 47.2054885,
+    "_lon": -1.5519327
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Tom Pouce",
+    "Adresse": "29 Rue Louis Joxe, 44200 Nantes, France",
+    "Quartier": "Île de Nantes",
+    "Micro-Quartier": "Beaulieu-Mangin",
+    "Nb places": 40,
+    "_lat": 47.2052137,
+    "_lon": -1.5466929
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite enfance Concertino",
+    "Adresse": "15 Boulevard Général de Gaulle, 44200 Nantes, France",
+    "Quartier": "Île de Nantes",
+    "Micro-Quartier": "Beaulieu-Mangin",
+    "Nb places": 60,
+    "_lat": 47.206074,
+    "_lon": -1.538233
+  },
+  {
+    "Type": "Entreprise",
+    "Nom": "Crèche inter-entreprise Le Petit Prince",
+    "Adresse": "12 Boulevard Georges Pompidou, 44200 Nantes, France",
+    "Quartier": "Île de Nantes",
+    "Micro-Quartier": "Ile Beaulieu",
+    "Nb places": 35,
+    "_lat": 47.2094578,
+    "_lon": -1.5279656
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Beaulieu",
+    "Adresse": "13 Rue Paul Nassivet, 44200 Nantes, France",
+    "Quartier": "Île de Nantes",
+    "Micro-Quartier": "Ile Beaulieu",
+    "Nb places": 50,
+    "_lat": 47.208496,
+    "_lon": -1.5268936
+  },
+  {
+    "Type": "Micro-crèche",
+    "Nom": "Micro-crèche Nos Petits Pouces",
+    "Adresse": "5B Rue Malherbe, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Richebourg - St Clément",
+    "Nb places": 10,
+    "_lat": 47.2181217,
+    "_lon": -1.5468672
+  },
+  {
+    "Type": "Entreprise",
+    "Nom": "Crèche inter-entreprise Une Souris Verte 3",
+    "Adresse": "2 Rue de la Biscuiterie, 44000 Nantes, France",
+    "Quartier": "Centre-ville",
+    "Micro-Quartier": "Madeleine-Champ de Mars",
+    "Nb places": 27,
+    "_lat": 47.2153233,
+    "_lon": -1.5449826
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Crèche Les Petits Martiens",
+    "Adresse": "43 Rue Fouré, 44000 Nantes, France",
+    "Quartier": "Centre-ville",
+    "Micro-Quartier": "Madeleine-Champ de Mars",
+    "Nb places": 50,
+    "_lat": 47.2106428,
+    "_lon": -1.546784
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Sully",
+    "Adresse": "7 Allée de la Reine Margot, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Waldeck - Sully",
+    "Nb places": 50,
+    "_lat": 47.2225702,
+    "_lon": -1.5497944
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Le Petit Bonheur",
+    "Adresse": "2 Avenue Henri Ollivier, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Waldeck - Sully",
+    "Nb places": 40,
+    "_lat": null,
+    "_lon": null
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Les p'tites Gambettes",
+    "Adresse": "102 Rue Gambetta, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Coulmiers - Jardin des Plantes",
+    "Nb places": 40,
+    "_lat": 47.2204088,
+    "_lon": -1.5465409
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Ribambelle",
+    "Adresse": "87 Rue Gaston Turpin, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Coulmiers - Jardin des Plantes",
+    "Nb places": 35,
+    "_lat": 47.2224233,
+    "_lon": -1.5441603
+  },
+  {
+    "Type": "Entreprise",
+    "Nom": "Crèche inter-entreprises Ty Biscuits",
+    "Adresse": "22 Mail Pablo Picasso, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Vieux Malakoff",
+    "Nb places": 40,
+    "_lat": 47.2152143,
+    "_lon": -1.5367698
+  },
+  {
+    "Type": "Entreprise",
+    "Nom": "Crèche inter-entreprises Liveli Euronantes",
+    "Adresse": "20 Mail Pablo Picasso, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Vieux Malakoff",
+    "Nb places": 40,
+    "_lat": 47.2154541,
+    "_lon": -1.5362345
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Manufacture",
+    "Adresse": "1 Cour Jules Durand, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Coulmiers - Jardin des Plantes",
+    "Nb places": 95,
+    "_lat": 47.2196668,
+    "_lon": -1.5370647
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Les P'tits Haubans",
+    "Adresse": "1 Rue de Hambourg, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Malakoff",
+    "Nb places": 20,
+    "_lat": 47.2142948,
+    "_lon": -1.5274485
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Malakoff",
+    "Adresse": "3 Rue de Chypre, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Malakoff",
+    "Nb places": 28,
+    "_lat": 47.216089,
+    "_lon": -1.5226335
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative La Maison de Nanou",
+    "Adresse": "75 Rue Général Buat, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "St Donatien",
+    "Nb places": 38,
+    "_lat": 47.2285178,
+    "_lon": -1.5411175
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Bambou",
+    "Adresse": "33 Rue Marianne, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Caserne Mellinet",
+    "Nb places": 30,
+    "_lat": 47.2278491,
+    "_lon": -1.5360989
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Enfanfare",
+    "Adresse": "2 Rue des Glénans, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Agenêts",
+    "Nb places": 40,
+    "_lat": 47.2287399,
+    "_lon": -1.5319863
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Toiles",
+    "Adresse": "24 Rue du Casterneau, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Agenêts",
+    "Nb places": 28,
+    "_lat": 47.2275388,
+    "_lon": -1.5300528
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Pomme Cannelle",
+    "Adresse": "12 Rue Francis de Pressensé, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Toutes Aides",
+    "Nb places": 30,
+    "_lat": 47.2245633,
+    "_lon": -1.5221161
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Pic et Plume",
+    "Adresse": "25 Rue des Boers, 44000 Nantes, France",
+    "Quartier": "Malakoff - Saint-Donatien",
+    "Micro-Quartier": "Coudray",
+    "Nb places": 18,
+    "_lat": 47.2344119,
+    "_lon": -1.5455742
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative Pirouette",
+    "Adresse": "7 Rue des Perrines, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "Mairie de Doulon",
+    "Nb places": 20,
+    "_lat": 47.2286735,
+    "_lon": -1.5163841
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Port Boyer, antenne de Cosmos",
+    "Adresse": "77B Rue du Port Boyer, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "Port Boyer",
+    "Nb places": 20,
+    "_lat": 47.2413887,
+    "_lon": -1.5406982
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative La Maison de Jordan",
+    "Adresse": "2 Rue de la Petite Noë, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "Eraudière - Renaudière",
+    "Nb places": 108,
+    "_lat": 47.2452973,
+    "_lon": -1.5336099
+  },
+  {
+    "Type": "Entreprise",
+    "Nom": "Crèche inter-entreprises Les petits chaperons rouges Verne",
+    "Adresse": "Boulevard Jules Verne, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "Ranzay - Grand Clos",
+    "Nb places": 20,
+    "_lat": 47.2388621,
+    "_lon": -1.5317642
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Pilotière",
+    "Adresse": "31 Rue des Platanes, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "Pilotière",
+    "Nb places": 80,
+    "_lat": 47.24545,
+    "_lon": -1.5240188
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Cosmos",
+    "Adresse": "3 Allée Madeleine Brès, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "La Bottière",
+    "Nb places": 30,
+    "_lat": 47.2388253,
+    "_lon": -1.5200293
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Crèche L'Escale des Bambins",
+    "Adresse": "14B Rue Emile Gadeceau, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "Haluchère-Perray",
+    "Nb places": 40,
+    "_lat": 47.2456948,
+    "_lon": -1.5162203
+  },
+  {
+    "Type": "Associative",
+    "Nom": "Crèche associative La chanson des Poupies",
+    "Adresse": "9 Mail Haroun Tazieff, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "Haluchère-Perray",
+    "Nb places": 69,
+    "_lat": 47.2416799,
+    "_lon": -1.5150675
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Perray, antenne de Doulon",
+    "Adresse": "7 Rue Frédéric Mistral, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "Haluchère-Perray",
+    "Nb places": 15,
+    "_lat": 47.2471241,
+    "_lon": -1.5127671
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Crèche Le Nid du Phénix",
+    "Adresse": "131 Mail Haroun Tazieff, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "Haluchère-Perray",
+    "Nb places": 40,
+    "_lat": 47.2430009,
+    "_lon": -1.5171004
+  },
+  {
+    "Type": "Municipale",
+    "Nom": "Multi-accueil Petite Enfance Doulon",
+    "Adresse": "1 Rue de la Basse Chénaie, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "Rte de Ste Luce",
+    "Nb places": 20,
+    "_lat": 47.2365972,
+    "_lon": -1.5081196
+  },
+  {
+    "Type": "MAM",
+    "Nom": "UN P'TIT BOUT DE BONHEUR",
+    "Adresse": "83 Route de Saint Joseph, 44300 Nantes, France",
+    "Quartier": "Nantes Erdre",
+    "Micro-Quartier": "Ranzay - Grand Clos",
+    "Nb places": 10,
+    "_lat": 47.2385232,
+    "_lon": -1.5387742
+  },
+  {
+    "Type": "MAM",
+    "Nom": "DOUDOUS ET P'TITES FRIMOUSSES",
+    "Adresse": "21 Avenue Bon Accueil, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "Le Landreau",
+    "Nb places": 10,
+    "_lat": 47.2348787,
+    "_lon": -1.5170291
+  },
+  {
+    "Type": "MAM",
+    "Nom": "LES P'TITS DE ST FÉ",
+    "Adresse": "5 Avenue Saint Félix, 44000 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Saint Félix",
+    "Nb places": 10,
+    "_lat": 47.2315657,
+    "_lon": -1.5556195
+  },
+  {
+    "Type": "MAM",
+    "Nom": "MA NANIE NANÈRE !",
+    "Adresse": "18 Passage du carrousel, 44000 Nantes, France",
+    "Quartier": "Centre-ville",
+    "Micro-Quartier": "Madeleine-Champ de Mars",
+    "Nb places": 10,
+    "_lat": 47.2129435,
+    "_lon": -1.5490026
+  },
+  {
+    "Type": "MAM",
+    "Nom": "DES AMIS POUR GRANDIR",
+    "Adresse": "127 Rue Paul Bellamy, 44300 Nantes, France",
+    "Quartier": "Hauts-Pavés - Saint-Félix",
+    "Micro-Quartier": "Talensac - Pont Morand",
+    "Nb places": 10,
+    "_lat": 47.2281697,
+    "_lon": -1.5618086
+  },
+  {
+    "Type": "MAM",
+    "Nom": "PETIT A PETIT",
+    "Adresse": "26 Rue de la blanchetière, 44300 Nantes, France",
+    "Quartier": "Doulon - Bottière",
+    "Micro-Quartier": "Le Vieux Doulon",
+    "Nb places": 10,
+    "_lat": 47.2355864,
+    "_lon": -1.5054481
+  },
+  {
+    "Type": "MAM",
+    "Nom": "COUCOU MA NOUNOU",
+    "Adresse": "8 Boulevard François Blancho, 44200 Nantes, France",
+    "Quartier": "Île de Nantes",
+    "Micro-Quartier": "Ile Beaulieu",
+    "Nb places": 10,
+    "_lat": 47.2043362,
+    "_lon": -1.5330569
+  },
+  {
+    "Type": "MAM",
+    "Nom": "COMME SUR UN NUAGE",
+    "Adresse": "10 Boulevard BOULAY PATY, 44100 Nantes, France",
+    "Quartier": "Breil - Barberie",
+    "Micro-Quartier": "Rd pt de Vannes",
+    "Nb places": 10,
+    "_lat": 47.2306979,
+    "_lon": -1.5760909
+  },
+  {
+    "Type": "MAM",
+    "Nom": "HIPPOPOMAM",
+    "Adresse": "4 Rue Emilienne Leroux, 44200 Nantes, France",
+    "Quartier": "Nantes Sud",
+    "Micro-Quartier": "Gde Grèneraie - Clos Toreau",
+    "Nb places": 10,
+    "_lat": 47.1966723,
+    "_lon": -1.5329046
+  },
+  {
+    "Type": "MAM",
+    "Nom": "MAM PATATE AU BLE",
+    "Adresse": "11bis Avenue petite avenue de longchamp, 44300 Nantes, France",
+    "Quartier": "Breil - Barberie",
+    "Micro-Quartier": "Beauséjour",
+    "Nb places": 10,
+    "_lat": null,
+    "_lon": null
+  },
+  {
+    "Type": "MAM",
+    "Nom": "LA MAM DE PROCÉ",
+    "Adresse": "21 Rue Condorcet, 44000 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Grillaud - Procé",
+    "Nb places": 10,
+    "_lat": 47.22032,
+    "_lon": -1.5841829
+  },
+  {
+    "Type": "MAM",
+    "Nom": "MAMAISONNETTE44",
+    "Adresse": "4 Rue Samuel de Champlain, 44300 Nantes, France",
+    "Quartier": "Nantes Nord",
+    "Micro-Quartier": "Bout des Pavés-Chêne des Anglais",
+    "Nb places": 10,
+    "_lat": 47.2602214,
+    "_lon": -1.5742665
+  },
+  {
+    "Type": "MAM",
+    "Nom": "DU BONHEUR EN DOUCEUR",
+    "Adresse": "37 Rue du Corps de Garde, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Contrie",
+    "Nb places": 10,
+    "_lat": 47.2121226,
+    "_lon": -1.59721
+  },
+  {
+    "Type": "MAM",
+    "Nom": "LA MAISON DES BULLES",
+    "Adresse": "30 Rue de Genève, 44100 Nantes, France",
+    "Quartier": "Dervallières - Zola",
+    "Micro-Quartier": "Durantière",
+    "Nb places": 10,
+    "_lat": 47.2121399,
+    "_lon": -1.6021352
+  },
+  {
+    "Type": "MAM",
+    "Nom": "1.2.3... MALICE",
+    "Adresse": "26 Rue des Alouettes, 44100 Nantes, France",
+    "Quartier": "Bellevue - Chantenay - Sainte-Anne",
+    "Micro-Quartier": "Plessis-Cellier Roche Maurice",
+    "Nb places": 10,
+    "_lat": 47.2017839,
+    "_lon": -1.6028384
+  },
+  {
+    "Type": "MAM",
+    "Nom": "MAM EN CHANTENAY",
+    "Adresse": "26 Rue des Alouettes, 44100 Nantes, France",
+    "Quartier": "Bellevue - Chantenay - Sainte-Anne",
+    "Micro-Quartier": "Plessis-Cellier Roche Maurice",
+    "Nb places": 10,
+    "_lat": 47.2017839,
+    "_lon": -1.6028384
+  }
+]

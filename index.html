@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modes de garde collectif – Local</title>
+
+  <!-- Leaflet (CDN) pour la carte ; nécessite internet pour charger les tuiles -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+  <style>
+    :root { --bg:#0b0c0f; --panel:#12141a; --panel2:#171922; --muted:#9aa3af; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#e5e7eb}
+    .app{display:grid;grid-template-columns:280px 1fr 320px;gap:10px;height:100vh;padding:10px}
+    .panel{background:var(--panel);border:1px solid #1f2330;border-radius:14px;overflow:hidden}
+    .left{padding:10px;display:flex;flex-direction:column}
+    .title{font-weight:700;padding:10px 12px}
+    .search{margin:6px 10px 10px}
+    .search input{width:100%;border:1px solid #283044;background:#0f1117;color:#e5e7eb;border-radius:10px;padding:10px 12px;outline:none}
+    .list{overflow:auto;padding:0 6px 10px 10px}
+    .q-item{cursor:pointer;padding:10px 12px;border-radius:10px;margin:6px 4px;background:var(--panel2);border:1px solid #232837}
+    .q-item.active{outline:2px solid #60a5fa}
+    #map{height:100%}
+    .right{padding:14px;display:flex;flex-direction:column;gap:12px}
+    .kpi{background:var(--panel2);border:1px solid #232837;border-radius:12px;padding:14px}
+    .kpi h3{margin:0 0 8px 0;font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.2px}
+    .kpi .big{font-size:36px;font-weight:800}
+    .legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#2a2f3a;font-size:12px;border:1px solid #2f3544}
+    .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+    .note{padding:10px;color:#f59e0b;font-size:13px}
+    @media (max-width:1100px){.app{grid-template-columns:1fr;grid-template-rows:260px 1fr 260px}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- LISTE QUARTIERS -->
+    <aside class="panel left">
+      <div class="title">Quartiers</div>
+      <div class="search"><input id="search" placeholder="Rechercher un quartier..." /></div>
+      <div id="qList" class="list"></div>
+      <div id="fileNote" class="note" style="display:none"></div>
+    </aside>
+
+    <!-- CARTE -->
+    <main class="panel"><div id="map"></div></main>
+
+    <!-- KPIs -->
+    <aside class="panel right">
+      <div style="padding:8px 8px 0"><h2 style="margin:6px 0 10px 2px;">Cartographie des modes de garde collectif à Nantes (local)</h2></div>
+
+      <div class="legend" id="legend" style="padding:0 12px"></div>
+
+      <div class="kpi">
+        <h3>Nb places crèche (collectif)</h3><div class="big" id="kpiPlaces">–</div>
+      </div>
+      <div class="kpi">
+        <h3>Nombre de crèches</h3><div class="big" id="kpiCreches">–</div>
+      </div>
+      <div class="kpi">
+        <h3>Nb places / 1000 hab</h3><div class="big" id="kpiPer1k">–</div>
+      </div>
+      <div class="kpi">
+        <h3>Population</h3><div class="big" id="kpiPop">–</div>
+      </div>
+      <div class="kpi">
+        <h3>Superficie (km²)</h3><div class="big" id="kpiArea">–</div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // IMPORTANT : mets ce HTML dans le même dossier que DataCreches.json et DataQuartier.json
+    const CRECHES_URL   = "./DataCreches.json";
+    const QUARTIERS_URL = "./DataQuartier.json";
+
+    // Couleurs par type
+    const TYPE_COLORS = {"Municipale":"#3b82f6","Associative":"#ef4444","Micro-crèche":"#f59e0b","MAM":"#a855f7"};
+    const COLLECTIF_TYPES = new Set(["Municipale","Associative","Micro-crèche"]);
+
+    // Carte
+    const map = L.map('map').setView([47.218, -1.553], 12);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19}).addTo(map);
+    const markersLayer = L.layerGroup().addTo(map);
+
+    // Data
+    let creches=[], quartiers=[];
+    let selectedQuartier = null;
+
+    // UI
+    const qList = document.getElementById('qList');
+    const search = document.getElementById('search');
+    const kpiPlaces = document.getElementById('kpiPlaces');
+    const kpiCreches = document.getElementById('kpiCreches');
+    const kpiPer1k = document.getElementById('kpiPer1k');
+    const kpiPop = document.getElementById('kpiPop');
+    const kpiArea = document.getElementById('kpiArea');
+    const legend = document.getElementById('legend');
+    const fileNote = document.getElementById('fileNote');
+
+    // Helpers
+    function slug(s){return (s||"").toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu,"").replace(/[^a-z0-9]+/g," ").trim();}
+    function colorFor(t){return TYPE_COLORS[t]||"#38bdf8";}
+    function circleRadius(nb){ const n=Number(nb)||0; return Math.max(6, Math.sqrt(n)*2); }
+    function cssDot(c){return `<span class="dot" style="background:${c}"></span>`;}
+
+    function setKPIs(qName){
+      const byQuartier = creches.filter(c => !qName || c.Quartier===qName);
+      const placesCollectif = byQuartier
+        .filter(c => COLLECTIF_TYPES.has(c.Type))
+        .reduce((s,c)=> s + (Number(c["Nb places"])||0), 0);
+      kpiPlaces.textContent = placesCollectif.toLocaleString('fr-FR');
+      kpiCreches.textContent = byQuartier.length.toLocaleString('fr-FR');
+
+      // Stats micro-quartier (population/superficie)
+      let pop=null, area=null, per1k=null;
+      if(qName){
+        // Somme des micro-quartiers rattachés à ce quartier
+        const qMicro = quartiers.filter(q => (q.Quartier||"")===qName);
+        if(qMicro.length){
+          pop = qMicro.reduce((s,q)=> s + (Number(q["Population (2018)"])||0), 0);
+          area = qMicro.reduce((s,q)=> s + (Number(q["Superficie (km²)"])||0), 0);
+        }
+      }
+      if(pop){ per1k = pop ? (placesCollectif / (pop/1000)) : null; }
+      kpiPer1k.textContent = per1k!=null ? per1k.toFixed(2).replace('.',',') : "–";
+      kpiPop.textContent   = pop!=null ? pop.toLocaleString('fr-FR') : "–";
+      kpiArea.textContent  = area!=null ? area.toLocaleString('fr-FR',{maximumFractionDigits:2}) : "–";
+    }
+
+    function renderLegend(){
+      legend.innerHTML = Object.keys(TYPE_COLORS)
+        .map(t => `<span class="pill">${cssDot(TYPE_COLORS[t])}${t}</span>`).join("");
+    }
+
+    function renderQuartiersList(){
+      const counts = creches.reduce((acc,c)=>{
+        acc[c.Quartier] = (acc[c.Quartier]||0) + 1; return acc;
+      },{});
+      const items = Object.keys(counts).sort((a,b)=>a.localeCompare(b,'fr'));
+      qList.innerHTML = items.map(q =>
+        `<div class="q-item ${q===selectedQuartier?'active':''}" data-q="${q}">
+          <div>${q}</div><small>${counts[q]} crèches</small>
+        </div>`
+      ).join("");
+    }
+
+    function attachListEvents(){
+      qList.addEventListener('click', (e)=>{
+        const el = e.target.closest('.q-item'); if(!el) return;
+        selectedQuartier = el.dataset.q === selectedQuartier ? null : el.dataset.q;
+        renderQuartiersList();
+        updateMap();
+      });
+      search.addEventListener('input', ()=>{
+        const needle = slug(search.value);
+        [...qList.children].forEach(li=>{
+          const show = slug(li.dataset.q).includes(needle);
+          li.style.display = show ? '' : 'none';
+        });
+      });
+    }
+
+    function clearMap(){ markersLayer.clearLayers(); }
+
+    function updateMap(){
+      clearMap();
+      const subset = creches.filter(c => !selectedQuartier || c.Quartier===selectedQuartier);
+      subset.forEach(c=>{
+        if(!c._lat || !c._lon) return; // pas géocodé => on saute
+        const marker = L.circleMarker([c._lat, c._lon], {
+          radius: circleRadius(c["Nb places"]),
+          color: colorFor(c.Type),
+          fillColor: colorFor(c.Type),
+          fillOpacity: 0.8,
+          weight: 1
+        }).bindPopup(`<b>${c.Nom||"(Sans nom)"}</b><br>${c.Adresse||""}<br>${c.Type||""}<br>Places : ${c["Nb places"]||"?"}`);
+        marker.addTo(markersLayer);
+      });
+      if(subset.length){
+        const bounds = L.latLngBounds(subset.filter(c=>c._lat&&c._lon).map(c=>[c._lat,c._lon]));
+        if(bounds.isValid()) map.fitBounds(bounds.pad(0.2));
+      }
+      setKPIs(selectedQuartier);
+    }
+
+    // --- Chargement des fichiers locaux ---
+    async function loadJSONLocal(path){
+      // fetch(file://) peut être bloqué selon les navigateurs.
+      try {
+        const res = await fetch(path);
+        if(!res.ok) throw new Error("HTTP "+res.status);
+        return await res.json();
+      } catch (e) {
+        // Affiche une note pour l'utilisateur
+        fileNote.style.display = "block";
+        fileNote.innerHTML = "⚠️ Votre navigateur bloque parfois la lecture locale des fichiers.<br>"+
+          "Si la liste reste vide, lancez un mini serveur dans ce dossier (par ex. <code>py -m http.server</code> ou <code>python -m http.server</code>) "+
+          "puis ouvrez <code>http://localhost:8000/index.html</code>.";
+        throw e;
+      }
+    }
+
+    // --- Géocodage minimal offline-friendly (cache obligatoire) ---
+    // Ici, on suppose que tes JSON contiennent déjà des coordonnées *_lat/_lon*.
+    // Si ce n'est pas le cas, ajoute-les une fois (via script) pour rester 100% local.
+    function ensureLatLonWarning(rows){
+      const missing = rows.filter(r=>!(r._lat && r._lon)).length;
+      if(missing){
+        fileNote.style.display = "block";
+        fileNote.innerHTML = "ℹ️ Astuce : pour une utilisation 100% locale/offline, ajoute des colonnes <code>_lat</code> et <code>_lon</code> aux crèches (géocodées une fois) dans <code>DataCreches.json</code>.";
+      }
+    }
+
+    // --- Main ---
+    (async function init(){
+      try{
+        [creches, quartiers] = await Promise.all([
+          loadJSONLocal(CRECHES_URL),
+          loadJSONLocal(QUARTIERS_URL)
+        ]);
+
+        // nettoyage des champs attendus
+        creches = creches.map(d=>({
+          Type: d["Type"], Nom: d["Nom"], Adresse: d["Adresse"],
+          Quartier: d["Quartier"], "Nb places": Number(d["Nb places"])||0,
+          "Micro-Quartier": d["Micro-Quartier"], _lat: d["_lat"], _lon: d["_lon"]
+        }));
+        quartiers = quartiers.map(d=>({
+          "Micro-quartier": d["Micro-quartier"],
+          Quartier: d["Quartier"],
+          "Population (2018)": Number(d["Population (2018)"])||0,
+          "Superficie (km²)": Number(d["Superficie (km²)"])||0
+        }));
+
+        renderLegend();
+        renderQuartiersList();
+        attachListEvents();
+        ensureLatLonWarning(creches);
+        updateMap();
+      }catch(e){
+        console.error(e);
+      }
+    })();
+  </script>
+</body>
+</html>
